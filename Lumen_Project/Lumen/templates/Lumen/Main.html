@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="pl">
+
+<head>
+   <meta charset="UTF-8">
+   <title>Lumen - Twoje Centrum Quizów</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="Platforma z quizami Lumen">
+   <meta name="author" content="Jaroslav Savczenko">
+   <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
+</head>
+<body>
+   <header class="header">
+      <section class="container">
+         <h1 class="logo">Lumen</h1>
+         <nav class="navigation">
+            <a href="#">Home</a>
+            <a href="#">Quizy</a>
+            <a href="#">Mój profil</a>
+            <a href="#">Wyloguj</a>
+         </nav>
+      </section>
+   </header>
+
+   <main class="main-content">
+      <section class="container">
+         <h2>Witaj w Lumen!</h2>
+         <p>Wybierz quiz, który Cię interesuje i sprawdź swoją wiedzę.</p>
+
+         <section class="quiz-list">
+            <section class="quiz-card">
+               <h3>Przykładowy Quiz 1</h3>
+               <p>Krótki opis tego, o czym jest ten quiz.</p>
+               <a href="#" class="btn">Rozpocznij</a>
+            </section>
+
+         </section>
+      </section>
+   </main>
+
+   <footer class="footer">
+      <section class="container">
+         <p>&copy; 2025 Lumen Project. Wszelkie prawa zastrzeżone.</p>
+      </section>
+   </footer>
+</body>
+
+</html>

@@ -1,13 +1,15 @@
 from django.contrib import admin
 from django.core.exceptions import ValidationError
+from django.db.models import Count
 from django.forms.models import BaseInlineFormSet
 from .models import Quiz, Question, Answer
 
 class AnswerFormSet(BaseInlineFormSet):
     """Gwarantuje, że dokładnie jedna odpowiedź jest oznaczona jako poprawna."""
-
     def clean(self):
         super().clean()
+        if any(self.errors):
+            return
         correct_answers_count = 0
         for form in self.forms:
             if not form.cleaned_data or form.cleaned_data.get('DELETE', False):
@@ -21,28 +23,71 @@ class AnswerFormSet(BaseInlineFormSet):
             raise ValidationError('Tylko jedna odpowiedź może być oznaczona jako poprawna.')
 
 class AnswerInline(admin.TabularInline):
-    """Umożliwia edycję Odpowiedzi bezpośrednio na stronie Pytania."""
+    """Umożliwia edycję Odpowiedzi w formie tabeli na stronie Pytania."""
     model = Answer
     formset = AnswerFormSet
-    extra = 1  # Pokaż jedno dodatkowe puste pole
+    extra = 1
+    fields = ('text', 'is_correct')
 
-
-class QuestionInline(admin.StackedInline):
-    """Umożliwia edycję Pytań bezpośrednio na stronie Quizu."""
+class QuestionInline(admin.TabularInline):
+    """
+    Umożliwia edycję Pytań w formie tabeli na stronie Quizu.
+    Dodaje link do bezpośredniej edycji każdego pytania.
+    """
     model = Question
     extra = 1
-    fields = ('text', 'image', 'time_limit', 'order')
+    ordering = ('order',)
+    fields = ('text', 'order', 'time_limit', 'image')
+    show_change_link = True # dodaje link do edycji pytania
+
 
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
-    """Konfiguracja panelu admina dla modelu Quiz."""
-    list_display = ('title', 'category', 'created_by', 'is_published', 'created_at')
+    """Zaawansowana konfiguracja panelu admina для modelu Quiz."""
+    # Akcje hurtowe
+    actions = ['publish_quizzes', 'unpublish_quizzes']
+
+    # Ulepszony widok listy
+    list_display = ('title', 'category', 'is_published', 'question_count', 'created_by', 'created_at')
     list_filter = ('is_published', 'category', 'created_by')
     search_fields = ('title', 'description')
-    inlines = [QuestionInline]  # Dołączamy panel Pytań
 
-    # Automatyczne ustawienie 'created_by' na zalogowanego użytkownika
+    # organizacja formularza edycji
+    fieldsets = (
+        (None, {'fields': ('title', 'description', 'category')}),
+        ('Publikacja', {'fields': ('is_published',)}),
+        ('Autor', {'fields': ('created_by', 'created_at')}),
+    )
+    readonly_fields = ('created_at', 'created_by')
+
+    # Dołączenie panelu Pytań
+    inlines = [QuestionInline]
+
+    def get_queryset(self, request):
+        """Optymalizuje zapytania do bazy danych, aby przyspieszyć ładowanie listy."""
+        queryset = super().get_queryset(request)
+        queryset = queryset.annotate(q_count=Count('questions'))
+        return queryset
+
+    @admin.display(description='Liczba pytań', ordering='q_count')
+    def question_count(self, obj):
+        """Wyświetla liczbę pytań w quizie na liście."""
+        return obj.q_count
+
+    @admin.action(description='Opublikuj zaznaczone quizy')
+    def publish_quizzes(self, request, queryset):
+        """Akcja do publikowania wielu quizów na raz."""
+        queryset.update(is_published=True)
+        self.message_user(request, f"Opublikowano {queryset.count()} quizów.")
+
+    @admin.action(description='Cofnij publikację zaznaczonych quizów')
+    def unpublish_quizzes(self, request, queryset):
+        """Akcja do cofania publikacji wielu quizów na raz."""
+        queryset.update(is_published=False)
+        self.message_user(request, f"Cofnięto publikację dla {queryset.count()} quizów.")
+
     def save_model(self, request, obj, form, change):
+        """Automatycznie ustawia autora quizu przy pierwszym zapisie."""
         if not obj.pk:
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
@@ -55,10 +100,4 @@ class QuestionAdmin(admin.ModelAdmin):
     list_filter = ('quiz',)
     search_fields = ('text',)
     inlines = [AnswerInline]
-
-@admin.register(Answer)
-class AnswerAdmin(admin.ModelAdmin):
-    """Prosta konfiguracja panelu admina dla modelu Answer."""
-    list_display = ('text', 'question', 'is_correct')
-    list_filter = ('is_correct',)
-    search_fields = ('text',)
+    ordering = ('quiz', 'order')

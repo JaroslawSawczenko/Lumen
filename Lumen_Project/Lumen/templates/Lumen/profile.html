@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "Lumen/Main.html" %}
+
+{% load static %}
+
+<html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+   <meta charset="UTF-8">
+   <title>Lumen - Twoje Centrum Quizów</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="description" content="Platforma z quizami Lumen">
+   <meta name="author" content="Jaroslav Savczenko">
+   <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
 </head>
 <body>
+
+    <header>
+
+    </header>
+
+
+{% block content %}
+<main class="main-content">
+    <section class="container">
+        <div class="profile-card" style="background: #fff; padding: 2rem; border-radius: 8px;">
+            <h2>Profil użytkownika: {{ profile.user.username }}</h2>
+            {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" alt="Awatar" style="width: 150px; height: 150px; border-radius: 50%;">
+            {% endif %}
+            <p><strong>Poziom:</strong> {{ profile.level }}</p>
+            <p><strong>Punkty XP:</strong> {{ profile.xp }}</p>
+            <p><strong>Łącznie punktów:</strong> {{profile.total_points}}</p>
+        </div>
+    </section>
+</main>
+{% endblock %}
+    <footer>
+        <p>&copy; 2025 Lumen Project. Wszelkie prawa zastrzeżone.</p>
+    </footer>
 
 </body>
 </html>

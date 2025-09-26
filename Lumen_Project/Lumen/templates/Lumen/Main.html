@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 {% load static %}
-
 <html lang="pl">
 
 <head>
@@ -11,34 +10,46 @@
    <meta name="author" content="Jaroslav Savczenko">
    <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
 </head>
+
 <body>
    <header class="header">
       <section class="container">
-         <h1 class="logo">Lumen</h1>
+         <h1 class="logo"><a href="{% url 'quiz_list' %}">LUMEN</a></h1>
          <nav class="navigation">
-            <a href="#">Home</a>
-            <a href="#">Quizy</a>
-            <a href="#">Mój profil</a>
-            <a href="#">Wyloguj</a>
+            <a href="{% url 'quiz_list' %}">Home</a>
+            <a href="{% url 'quiz_list' %}">Quizy</a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'user_profile' %}">Mój profil</a>
+                <a href="#">Wyloguj</a> {% else %}
+                <a href="#">Zaloguj</a>
+                <a href="#">Zarejestruj się</a>
+            {% endif %}
          </nav>
       </section>
    </header>
 
+   {% block content %}
    <main class="main-content">
       <section class="container">
          <h2>Witaj w Lumen!</h2>
          <p>Wybierz quiz, który Cię interesuje i sprawdź swoją wiedzę.</p>
 
          <section class="quiz-list">
-            <section class="quiz-card">
-               <h3>Przykładowy Quiz 1</h3>
-               <p>Krótki opis tego, o czym jest ten quiz.</p>
-               <a href="#" class="btn">Rozpocznij</a>
-            </section>
-
+            {% for quiz in quizzes %}
+            <article class="quiz-card">
+               <h3>{{ quiz.title }}</h3>
+               <p>{{ quiz.description }}</p>
+               <p><strong>Kategoria:</strong> {{ quiz.category }}</p>
+               <a href="{% url 'quiz_detail' quiz.id %}" class="btn">Rozpocznij</a>
+            </article>
+            {% empty %}
+            <p>Obecnie nie ma żadnych dostępnych quizów. Zajrzyj ponownie później!</p>
+            {% endfor %}
          </section>
       </section>
    </main>
+   {% endblock %}
 
    <footer class="footer">
       <section class="container">

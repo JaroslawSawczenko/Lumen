@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "Lumen/Main.html" %}
+
+{% block content %}
+<main class="main-content">
+    <section class="container">
+        <div class="quiz-start-card" style="background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center;">
+            <h2>{{ quiz.title }}</h2>
+            <p style="margin-top: 1rem;">{{ quiz.description }}</p>
+            <hr style="margin: 1.5rem 0;">
+            <p><strong>Kategoria:</strong> {{ quiz.category }}</p>
+            <p><strong>Liczba pytań:</strong> {{ quiz.questions.count }}</p>
+            <p><strong>Autor:</strong> {{ quiz.created_by.username }}</p>
+            
+            <a href="#" class="btn" style="margin-top: 2rem;">Zacznij rozwiązywać!</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

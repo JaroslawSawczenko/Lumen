@@ -1,42 +1,61 @@
 {% extends "Lumen/Main.html" %}
+{% load static %}
 
 {% block content %}
 <main class="main-content">
     <section class="container">
-        <div class="profile-card" style="background: #fff; padding: 2rem; border-radius: 8px;">
-            <h2>Profil użytkownika: {{user.username}}</h2>
+        <div class="profile-card" style="background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
 
-            {% if profile.avatar %}
-                <img src="{{ profile.avatar.url }}" alt="Awatar" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
-            {% else %}
-                <p>(Brak awatara)</p>
-            {% endif %}
+            <div class="profile-header" style="display: flex; align-items: center; gap: 20px;">
 
-            <form method="post" enctype="multipart/form-data" style="margin-top: 1rem;">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn">Zmień awatar</button>
-            </form>
+                {% if profile.avatar %}
+                    <img src="{{ profile.avatar.url }}" alt="Awatar" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+                {% else %}
+                    <img src="{% static 'images/default_avatar.png' %}" alt="Awatar" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+                {% endif %}
 
-            <hr style="margin: 1.5rem 0;">
+                <div>
+                    <h2 style="margin: 0;">{{ user.username }}</h2>
+                    <p><strong>Poziom:</strong> {{ profile.level }}</p>
+                </div>
+            </div>
 
-            <h3>Twoje statystyki</h3>
-            <p><strong>Poziom:</strong> {{ profile.level }}</p>
-            <p><strong>Punkty XP:</strong> {{ profile.xp }}</p>
-            <p><strong>Łącznie punktów:</strong> {{profile.total_points}}</p>
+            <div class="xp-progress" style="margin-top: 1.5rem;">
+                <p><strong>Postęp do następnego poziomu:</strong> {{ profile.xp }} / {{ profile.xp_required_for_next_level }} XP</p>
+                <div class="progress-bar-container" style="background: #e0e0e0; border-radius: 25px; height: 25px; width: 100%;">
+                    <div class="progress-bar-fill" style="background: #0779e4; height: 100%; width: {{ profile.xp_progress_percentage }}%; border-radius: 25px; text-align: center; color: white; line-height: 25px;">
+                        {{ profile.xp_progress_percentage|floatformat:0 }}%
+                    </div>
+                </div>
+            </div>
 
-            <hr style="margin: 1.5rem 0;">
+            <hr style="margin: 2rem 0;">
+
+            <details>
+                <summary style="cursor: pointer; font-weight: bold;">Zmień awatar</summary>
+                <form method="post" enctype="multipart/form-data" style="margin-top: 1rem;">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn">Zapisz nowy awatar</button>
+                </form>
+            </details>
+
+            <hr style="margin: 2rem 0;">
 
             <h3>Historia Twoich gier</h3>
-            {% for result in quiz_results %}
-                <div class="quiz-history-item" style="border-bottom: 1px solid #eee; padding: 10px 0;">
-                    <p><strong>Quiz:</strong> {{ result.quiz.title }}</p>
-                    <p><strong>Wynik:</strong> {{result.score}} punktów</p>
-                    <small>Ukończono: {{result.completed_at}}</small>
-                </div>
-            {% empty %}
-                <p>Nie ukończyłeś jeszcze żadnego quizu.</p>
-            {% endfor %}
+            <div class="quiz-history-list">
+                {% for result in quiz_results %}
+                    <div class="quiz-history-item" style="border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <p style="margin: 0;"><strong>Quiz:</strong> {{ result.quiz.title }}</p>
+                            <small>Ukończono: {{ result.completed_at|date:"d.m.Y, H:i" }}</small>
+                        </div>
+                        <strong style="font-size: 1.2em;">{{ result.score }} pkt</strong>
+                    </div>
+                {% empty %}
+                    <p>Nie ukończyłeś jeszcze żadnego quizu.</p>
+                {% endfor %}
+            </div>
 
         </div>
     </section>

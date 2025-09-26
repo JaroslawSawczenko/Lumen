@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.TextField()),
-                ('image', models.ImageField(blank=True, null=True, upload_to='question_images/')),
+                ('images', models.ImageField(blank=True, null=True, upload_to='question_images/')),
                 ('time_limit', models.IntegerField(default=30)),
                 ('order', models.IntegerField(default=0)),
             ],

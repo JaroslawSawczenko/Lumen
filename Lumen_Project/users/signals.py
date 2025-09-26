@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from .models import UserProfile
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_profile(sender: type[User], instance: User, created: bool, **kwargs)-> None:
     """
     Sygnał, który automatycznie tworzy UserProfile,
     gdy tylko nowy obiekt User zostanie zapisany w bazie danych.

@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Quiz
+from django.http import HttpRequest, HttpResponse
 
-def quiz_list(request):
+def quiz_list(request: HttpRequest) -> HttpResponse:
     """
     Widok strony głównej, który wyświetla listę opublikowanych quizów.
     """
@@ -11,7 +12,7 @@ def quiz_list(request):
     }
     return render(request, 'Lumen/Main.html', context)
 
-def quiz_detail(request, quiz_id):
+def quiz_detail(request: HttpRequest, quiz_id: int) -> HttpResponse:
     """
     Widok wyświetlający stronę startową ("lobby") pojedynczego quizu.
     """

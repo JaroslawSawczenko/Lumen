@@ -3,10 +3,11 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm
 from .models import UserProfile
 from Lumen.models import QuizResult
+from django.http import HttpRequest, HttpResponse
 
 
 @login_required
-def profile_view(request):
+def profile_view(request: HttpRequest) -> HttpResponse:
     profile = get_object_or_404(UserProfile, user=request.user)
 
     if request.method == 'POST':

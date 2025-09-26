@@ -37,7 +37,7 @@ class QuestionInline(admin.TabularInline):
     model = Question
     extra = 1
     ordering = ('order',)
-    fields = ('text', 'order', 'time_limit', 'image')
+    fields = ('text', 'order', 'time_limit', 'images ')
     show_change_link = True # dodaje link do edycji pytania
 
 

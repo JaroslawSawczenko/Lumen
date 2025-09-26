@@ -9,7 +9,7 @@ class Quiz(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_published = models.BooleanField(default=False)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
 class Question(models.Model):
@@ -19,7 +19,7 @@ class Question(models.Model):
     time_limit = models.IntegerField(default=30)
     order = models.IntegerField(default=0)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.quiz.title} - Pytanie {self.order}"
 
 class Answer(models.Model):
@@ -27,7 +27,7 @@ class Answer(models.Model):
     text = models.CharField(max_length=300)
     is_correct = models.BooleanField(default=False)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.question.text[:50]} - {self.text}"
 
 class QuizResult(models.Model):
@@ -39,7 +39,7 @@ class QuizResult(models.Model):
     score = models.IntegerField()
     completed_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.user.username} - {self.quiz.title} ({self.score} pkt)"
 
 

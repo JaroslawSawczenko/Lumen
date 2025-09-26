@@ -1,41 +1,44 @@
 {% extends "Lumen/Main.html" %}
 
-{% load static %}
-
-<html lang="pl">
-<head>
-   <meta charset="UTF-8">
-   <title>Lumen - Twoje Centrum Quizów</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="description" content="Platforma z quizami Lumen">
-   <meta name="author" content="Jaroslav Savczenko">
-   <link rel="stylesheet" href="{% static 'CSS/style.css' %}">
-</head>
-<body>
-
-    <header>
-
-    </header>
-
-
 {% block content %}
 <main class="main-content">
     <section class="container">
         <div class="profile-card" style="background: #fff; padding: 2rem; border-radius: 8px;">
-            <h2>Profil użytkownika: {{ profile.user.username }}</h2>
+            <h2>Profil użytkownika: {{user.username}}</h2>
+
             {% if profile.avatar %}
-                <img src="{{ profile.avatar.url }}" alt="Awatar" style="width: 150px; height: 150px; border-radius: 50%;">
+                <img src="{{ profile.avatar.url }}" alt="Awatar" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+            {% else %}
+                <p>(Brak awatara)</p>
             {% endif %}
+
+            <form method="post" enctype="multipart/form-data" style="margin-top: 1rem;">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn">Zmień awatar</button>
+            </form>
+
+            <hr style="margin: 1.5rem 0;">
+
+            <h3>Twoje statystyki</h3>
             <p><strong>Poziom:</strong> {{ profile.level }}</p>
             <p><strong>Punkty XP:</strong> {{ profile.xp }}</p>
             <p><strong>Łącznie punktów:</strong> {{profile.total_points}}</p>
+
+            <hr style="margin: 1.5rem 0;">
+
+            <h3>Historia Twoich gier</h3>
+            {% for result in quiz_results %}
+                <div class="quiz-history-item" style="border-bottom: 1px solid #eee; padding: 10px 0;">
+                    <p><strong>Quiz:</strong> {{ result.quiz.title }}</p>
+                    <p><strong>Wynik:</strong> {{result.score}} punktów</p>
+                    <small>Ukończono: {{result.completed_at}}</small>
+                </div>
+            {% empty %}
+                <p>Nie ukończyłeś jeszcze żadnego quizu.</p>
+            {% endfor %}
+
         </div>
     </section>
 </main>
 {% endblock %}
-    <footer>
-        <p>&copy; 2025 Lumen Project. Wszelkie prawa zastrzeżone.</p>
-    </footer>
-
-</body>
-</html>

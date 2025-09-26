@@ -29,3 +29,18 @@ class Answer(models.Model):
 
     def __str__(self):
         return f"{self.question.text[:50]} - {self.text}"
+
+class QuizResult(models.Model):
+    """
+    Model przechowujący wynik ukończonego przez użytkownika quizu.
+    """
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.quiz.title} ({self.score} pkt)"
+
+
+

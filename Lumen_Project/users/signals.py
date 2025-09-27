@@ -13,7 +13,7 @@ def create_user_profile(sender: type[User], instance: User, created: bool, **kwa
         UserProfile.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
+def save_user_profile(sender: type[User], instance: User, **kwargs) -> None:
     """
     Sygnał, który zapisuje UserProfile za każdym razem,
     gdy obiekt User jest zapisywany.

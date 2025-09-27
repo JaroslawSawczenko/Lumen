@@ -11,7 +11,7 @@ class UserProfile(models.Model):
         return f"Profil {self.user.username}"
 
     @property
-    def xp_required_for_next_level(self):
+    def xp_required_for_next_level(self) -> int:
         """
         Oblicza, ile XP potrzeba, by osiągnąć następny poziom.
         Używa algorytmu wykładniczego, aby każdy poziom był trudniejszy.
@@ -20,7 +20,7 @@ class UserProfile(models.Model):
         return int(100 * (self.level ** 1.5))
 
     @property
-    def xp_progress_percentage(self):
+    def xp_progress_percentage(self) -> int:
         """Oblicza postęp XP jako procent potrzebny do następnego poziomu."""
         required_xp = self.xp_required_for_next_level
         # Unikamy dzielenia przez zero, jeśli z jakiegoś powodu wymagane XP będzie 0
@@ -29,7 +29,7 @@ class UserProfile(models.Model):
         progress = (self.xp / required_xp) * 100
         return min(progress, 100)
 
-    def add_xp(self, amount):
+    def add_xp(self, amount: int) -> None:
         """Dodaje punkty XP i sprawdza, czy użytkownik powinien awansować."""
         self.xp += amount
         # Pętla while na wypadek, gdyby użytkownik zdobył tyle XP, by awansować o kilka poziomów na raz

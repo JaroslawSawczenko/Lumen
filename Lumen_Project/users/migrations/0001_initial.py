@@ -21,7 +21,6 @@ class Migration(migrations.Migration):
                 ('avatar', models.ImageField(blank=True, null=True, upload_to='avatars/')),
                 ('xp', models.IntegerField(default=0)),
                 ('level', models.IntegerField(default=1)),
-                ('total_points', models.IntegerField(default=0)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL)),
             ],
         ),

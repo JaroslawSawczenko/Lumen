@@ -6,7 +6,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("" , include('Lumen.urls')),
-    path('accounts/', include('users.urls')),
+    path('users/', include('users.urls')),
+    path('users/', include('django.contrib.auth.urls')),
 ]
 
 # To sprawi, że serwer deweloperski będzie potrafił wyświetlać wgrane pliki

@@ -16,7 +16,8 @@ class UserProfile(models.Model):
         Oblicza, ile XP potrzeba, by osiągnąć następny poziom.
         Używa algorytmu wykładniczego, aby każdy poziom był trudniejszy.
         """
-
+        if self.level < 1:
+            return 100
         return int(100 * (self.level ** 1.5))
 
     @property

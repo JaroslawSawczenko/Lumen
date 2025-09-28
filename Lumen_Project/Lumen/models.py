@@ -41,6 +41,3 @@ class QuizResult(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user.username} - {self.quiz.title} ({self.score} pkt)"
-
-
-

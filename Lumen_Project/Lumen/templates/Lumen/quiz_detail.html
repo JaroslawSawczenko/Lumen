@@ -10,9 +10,9 @@
             <p><strong>Kategoria:</strong> {{ quiz.category }}</p>
             <p><strong>Liczba pytań:</strong> {{ quiz.questions.count }}</p>
             <p><strong>Autor:</strong> {{ quiz.created_by.username }}</p>
-            
-            <a href="#" class="btn" style="margin-top: 2rem;">Zacznij rozwiązywać!</a>
-        </div>
+
+            <a href="{% url 'quiz_list' %}" class="btn" style="margin-top: 2rem;">Wruc</a>
+            <a href="{% url 'play_quiz_view' quiz_id=quiz.id question_order=1 %}" class="btn" style="margin-top: 2rem;">Zacznij rozwiązywać!</a>        </div>
     </section>
 </main>
 {% endblock %}

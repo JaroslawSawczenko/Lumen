@@ -1,0 +1,26 @@
+{% extends "Lumen/Main.html" %}
+
+{% block content %}
+<main class="main-content">
+    <section class="container">
+        <h2>{{ quiz.title }}</h2>
+        <p>Pytanie {{ question.order }} z {{ total_questions }}</p>
+        <hr>
+
+        <h3>{{ question.text }}</h3>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            {% for answer in answers %}
+            <div>
+                <input type="radio" name="answer" value="{{ answer.id }}" id="answer{{ answer.id }}">
+                <label for="answer{{ answer.id }}">{{ answer.text }}</label>
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn" style="margin-top: 1rem;">Odpowiedz</button>
+        </form>
+    </section>
+</main>
+{% endblock %}

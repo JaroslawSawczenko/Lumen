@@ -20,7 +20,7 @@ class UserProfile(models.Model):
         return int(100 * (self.level ** 1.5))
 
     @property
-    def xp_progress_percentage(self) -> int:
+    def xp_progress_percentage(self) -> float:
         """Oblicza postęp XP jako procent potrzebny do następnego poziomu."""
         required_xp = self.xp_required_for_next_level
         # Unikamy dzielenia przez zero, jeśli z jakiegoś powodu wymagane XP będzie 0

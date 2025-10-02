@@ -33,8 +33,16 @@
    {% block content %}
    <main class="main-content">
       <section class="container">
-         <h2>Witaj w Lumen!</h2>
-         <p>Wybierz quiz, który Cię interesuje i sprawdź swoją wiedzę.</p>
+
+         {% if messages %}
+            <div class="messages">
+               {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }}">
+                     {{ message }}
+                  </div>
+               {% endfor %}
+            </div>
+         {% endif %}
 
          <section class="quiz-list">
             {% for quiz in quizzes %}
@@ -48,6 +56,7 @@
             <p>Obecnie nie ma żadnych dostępnych quizów. Zajrzyj ponownie później!</p>
             {% endfor %}
          </section>
+
       </section>
    </main>
    {% endblock %}

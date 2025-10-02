@@ -16,7 +16,7 @@ def play_quiz_view(request: HttpRequest, quiz_id: int, question_order: int) -> H
         if selected_answer_id:
             selected_answer = get_object_or_404(Answer, pk=selected_answer_id)
             if selected_answer.is_correct:
-                request.session[f'quiz_{quiz_id}_score'] += 10
+                request.session[f'quiz_{quiz_id}_score'] += request.session.get(f'quiz_{quiz_id}_score', 0) + 10
 
         next_question_order = question_order + 1
         try:
@@ -24,19 +24,33 @@ def play_quiz_view(request: HttpRequest, quiz_id: int, question_order: int) -> H
             return redirect('play_quiz_view', quiz_id=quiz.id, question_order=next_question_order)
 
         except Question.DoesNotExist:
-            final_score = request.session.get(f'quiz_{quiz_id}_score', 0)
+            # Koniec quizu - obliczamy ostateczny wynik
+            raw_score = request.session.get(f'quiz_{quiz_id}_score', 0)
+
+            # Policz, ile razy użytkownik już ukończył ten quiz
+            previous_attempts = QuizResult.objects.filter(user=request.user, quiz=quiz).count()
+
+            # Oblicz mnożnik. Za pierwszym razem (0 prób) mnożnik to 1.0,
+            # za drugim (1 próba) to 0.5, za trzecim 0.25 itd.
+            multiplier = 1.0 / (2 ** previous_attempts)
+            final_score = int(raw_score * multiplier)
+
             QuizResult.objects.create(
                 user=request.user,
-                quiz=quiz,
+                quiz = quiz,
                 score=final_score
             )
+
             request.user.profile.add_xp(final_score)
+
+            # Wyczyść wynik z sesji
             del request.session[f'quiz_{quiz_id}_score']
             return redirect('user_profile')
 
     try:
         question = Question.objects.get(quiz=quiz, order=question_order)
         answers = question.answers.all()
+
     except Question.DoesNotExist:
         return redirect('quiz_detail', quiz_id=quiz.id)
 

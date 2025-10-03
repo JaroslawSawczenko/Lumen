@@ -2,6 +2,8 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Quiz, Question, Answer, QuizResult
+from rest_framework import viewsets, permissions
+from .serializers import QuizListSerializer , QuizDetailSerializer
 
 @login_required
 def play_quiz_view(request: HttpRequest, quiz_id: int, question_order: int) -> HttpResponse:
@@ -16,7 +18,7 @@ def play_quiz_view(request: HttpRequest, quiz_id: int, question_order: int) -> H
         if selected_answer_id:
             selected_answer = get_object_or_404(Answer, pk=selected_answer_id)
             if selected_answer.is_correct:
-                request.session[f'quiz_{quiz_id}_score'] += request.session.get(f'quiz_{quiz_id}_score', 0) + 10
+                request.session[f'quiz_{quiz_id}_score'] += 10
 
         next_question_order = question_order + 1
         try:
@@ -76,3 +78,28 @@ def quiz_detail(request: HttpRequest, quiz_id: int) -> HttpResponse:
         "quiz": quiz
     }
     return render(request, 'Lumen/quiz_detail.html', context)
+
+class QuizViewSet(viewsets.ModelViewSet):
+    """
+    Ten ViewSet automatycznie obsługuje PEŁEN ZAKRES akcji:
+    - `list` (GET /api/quizzes/)
+    - `retrieve` (GET /api/quizzes/<id>/)
+    - `create` (POST /api/quizzes/)
+    - `update` (PUT /api/quizzes/<id>/)
+    - `partial_update` (PATCH /api/quizzes/<id>/)
+    - `destroy` (DELETE /api/quizzes/<id>/)
+    """
+    queryset = Quiz.objects.filter(is_published=True)
+
+    # Tylko zalogowani administratorzy mogą edytować. Każdy może przeglądać.
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_serializer_class(self):
+        """Zwraca odpowiedni serializer w zależności od akcji."""
+        if self.action == 'list':
+            return QuizListSerializer
+        return QuizDetailSerializer
+
+    def perform_create(self, serializer):
+        """Automatycznie przypisuje zalogowanego użytkownika jako autora quizu."""
+        serializer.save(created_by=self.request.user)

@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Lumen',
     'users',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

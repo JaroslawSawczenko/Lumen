@@ -81,15 +81,10 @@ def quiz_detail(request: HttpRequest, quiz_id: int) -> HttpResponse:
 
 class QuizViewSet(viewsets.ModelViewSet):
     """
-    Ten ViewSet automatycznie obsługuje PEŁEN ZAKRES akcji:
-    - `list` (GET /api/quizzes/)
-    - `retrieve` (GET /api/quizzes/<id>/)
-    - `create` (POST /api/quizzes/)
-    - `update` (PUT /api/quizzes/<id>/)
-    - `partial_update` (PATCH /api/quizzes/<id>/)
-    - `destroy` (DELETE /api/quizzes/<id>/)
+    Pełny ViewSet do zarządzania quizami.
     """
-    queryset = Quiz.objects.filter(is_published=True)
+    # pobieramy od razu powiązane pytania i odpowiedzi jednym zapytaniem SQL
+    queryset = Quiz.objects.prefetch_related('questions__answers').filter(is_published=True)
 
     # Tylko zalogowani administratorzy mogą edytować. Każdy może przeglądać.
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

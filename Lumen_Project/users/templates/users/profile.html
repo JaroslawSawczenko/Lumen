@@ -4,35 +4,33 @@
 {% block content %}
 <main class="main-content">
     <section class="container">
-        <div class="profile-card" style="background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div class="profile-card">
 
-            <div class="profile-header" style="display: flex; align-items: center; gap: 20px;">
-
+            <div class="profile-header">
                 {% if profile.avatar %}
-                    <img src="{{ profile.avatar.url }}" alt="Awatar" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+                    <img src="{{ profile.avatar.url }}" alt="Awatar">
                 {% else %}
-                    <img src="{% static 'images/default_avatar.jpg' %}" alt="Awatar" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+                    <img src="{% static 'images/default_avatar.jpg' %}" alt="Awatar">
                 {% endif %}
-
                 <div>
-                    <h2 style="margin: 0;">{{ user.username }}</h2>
+                    <h2>{{ user.username }}</h2>
                     <p><strong>Poziom:</strong> {{ profile.level }}</p>
                 </div>
             </div>
 
-            <div class="xp-progress" style="margin-top: 1.5rem;">
+            <div class="xp-progress">
                 <p><strong>Postęp do następnego poziomu:</strong> {{ profile.xp }} / {{ profile.xp_required_for_next_level }} XP</p>
-                <div class="progress-bar-container" style="background: #e0e0e0; border-radius: 25px; height: 25px; width: 100%;">
-                    <div class="progress-bar-fill" style="background: #0779e4; height: 100%; width: {{ profile.xp_progress_percentage }}%; border-radius: 25px; text-align: center; color: white; line-height: 25px;">
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: {{ profile.xp_progress_percentage }}%;">
                         {{ profile.xp_progress_percentage|floatformat:0 }}%
                     </div>
                 </div>
             </div>
 
-            <hr style="margin: 2rem 0;">
+            <hr>
 
             <details>
-                <summary style="cursor: pointer; font-weight: bold;">Zmień awatar</summary>
+                <summary>Zmień awatar</summary>
                 <form method="post" enctype="multipart/form-data" style="margin-top: 1rem;">
                     {% csrf_token %}
                     {{ form.as_p }}
@@ -40,17 +38,17 @@
                 </form>
             </details>
 
-            <hr style="margin: 2rem 0;">
+            <hr>
 
             <h3>Historia Twoich gier</h3>
             <div class="quiz-history-list">
                 {% for result in quiz_results %}
-                    <div class="quiz-history-item" style="border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center;">
+                    <div class="quiz-history-item">
                         <div>
-                            <p style="margin: 0;"><strong>Quiz:</strong> {{ result.quiz.title }}</p>
+                            <p><strong>Quiz:</strong> {{ result.quiz.title }}</p>
                             <small>Ukończono: {{ result.completed_at|date:"d.m.Y, H:i" }}</small>
                         </div>
-                        <strong style="font-size: 1.2em;">{{ result.score }} pkt</strong>
+                        <strong>{{ result.score }} pkt</strong>
                     </div>
                 {% empty %}
                     <p>Nie ukończyłeś jeszcze żadnego quizu.</p>

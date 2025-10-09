@@ -79,22 +79,20 @@ def quiz_detail(request: HttpRequest, quiz_id: int) -> HttpResponse:
     }
     return render(request, 'Lumen/quiz_detail.html', context)
 
+
 class QuizViewSet(viewsets.ModelViewSet):
     """
     Pełny ViewSet do zarządzania quizami.
     """
-    # pobieramy od razu powiązane pytania i odpowiedzi jednym zapytaniem SQL
-    queryset = Quiz.objects.prefetch_related('questions__answers').filter(is_published=True)
-
-    # Tylko zalogowani administratorzy mogą edytować. Każdy może przeglądać.
+    # --- POPRAWKA: Usunięto .filter(is_published=True) ---
+    # Administrator w API powinien widzieć wszystkie quizy, także te nieopublikowane.
+    queryset = Quiz.objects.prefetch_related('questions__answers').all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_serializer_class(self):
-        """Zwraca odpowiedni serializer w zależności od akcji."""
         if self.action == 'list':
             return QuizListSerializer
         return QuizDetailSerializer
 
     def perform_create(self, serializer):
-        """Automatycznie przypisuje zalogowanego użytkownika jako autora quizu."""
         serializer.save(created_by=self.request.user)

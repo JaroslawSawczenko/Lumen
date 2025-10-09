@@ -12,17 +12,21 @@ ALLOWED_HOSTS = []
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 INSTALLED_APPS = [
+    # Aplikacje Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Aplikacje zewnętrzne (third-party)
+    'rest_framework',
+
+    # Twoje aplikacje
     'Lumen',
     'users',
-    'rest_framework',
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

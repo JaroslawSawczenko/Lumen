@@ -66,7 +66,18 @@ def play_quiz_view(request: HttpRequest, quiz_id: int, question_order: int) -> H
     return render(request, "Lumen/play_quiz.html", context)
 
 def quiz_list(request: HttpRequest) -> HttpResponse:
-    quizzes = Quiz.objects.filter(is_published=True)
+    """
+    Wyświetla listę quizów.
+    - Superuserzy widzą wszystkie quizy (opublikowane i nieopublikowane).
+    - Zwykli użytkownicy widzą tylko opublikowane quizy.
+    """
+    if request.user.is_authenticated and request.user.is_superuser:
+        # Administrator widzi wszystkie quizy
+        quizzes = Quiz.objects.all().order_by('-created_at')
+    else:
+        # Zwykły użytkownik widzi tylko opublikowane quizy
+        quizzes = Quiz.objects.filter(is_published=True).order_by('-created_at')
+
     context = {
         'quizzes': quizzes
     }

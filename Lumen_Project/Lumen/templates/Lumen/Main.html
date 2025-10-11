@@ -58,21 +58,25 @@
             </div>
          {% endif %}
 
-                <section class="quiz-list">
-            {% for quiz in quizzes %}
-            <article class="quiz-card">
-               {% if user.is_superuser and not quiz.is_published %}
-                  <span class="unpublished-badge">Nieopublikowany</span>
-               {% endif %}
-               <h3>{{ quiz.title }}</h3>
-               <p>{{ quiz.description }}</p>
-               <p><strong>Kategoria:</strong> {{ quiz.category }}</p>
-               <a href="{% url 'quiz_detail' quiz.id %}" class="btn">Rozpocznij</a>
-            </article>
-            {% empty %}
-            <p>Obecnie nie ma żadnych dostępnych quizów. Zajrzyj ponownie później!</p>
-            {% endfor %}
-         </section>
+  <section class="quiz-list">
+    {% for quiz in quizzes %}
+    <article class="quiz-card">
+        {% if user.is_superuser and not quiz.is_published %}
+            <span class="unpublished-badge">Nieopublikowany</span>
+        {% endif %}
+
+        <div class="quiz-card-content">
+            <h3>{{ quiz.title }}</h3>
+            <p>{{ quiz.description }}</p>
+            <p><strong>Kategoria:</strong> {{ quiz.category }}</p>
+        </div>
+
+        <a href="{% url 'quiz_detail' quiz.id %}" class="btn">Rozpocznij</a>
+    </article>
+    {% empty %}
+    <p>Obecnie nie ma żadnych dostępnych quizów. Zajrzyj ponownie później!</p>
+    {% endfor %}
+</section>
 
       </section>
    </main>

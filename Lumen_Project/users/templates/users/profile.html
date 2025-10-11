@@ -27,33 +27,31 @@
                 </div>
             </div>
 
-            <hr>
-
             <details>
                 <summary>Zmień awatar</summary>
-                <form method="post" enctype="multipart/form-data" style="margin-top: 1rem;">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit" class="btn">Zapisz nowy awatar</button>
                 </form>
             </details>
 
-            <hr>
-
-            <h3>Historia Twoich gier</h3>
-            <div class="quiz-history-list">
-                {% for result in quiz_results %}
-                    <div class="quiz-history-item">
-                        <div>
-                            <p><strong>Quiz:</strong> {{ result.quiz.title }}</p>
-                            <small>Ukończono: {{ result.completed_at|date:"d.m.Y, H:i" }}</small>
+            <details>
+                <summary>Historia Twoich gier</summary>
+                <div class="quiz-history-list">
+                    {% for result in quiz_results %}
+                        <div class="quiz-history-item">
+                            <div>
+                                <p><strong>Quiz:</strong> {{ result.quiz.title }}</p>
+                                <small>Ukończono: {{ result.completed_at|date:"d.m.Y, H:i" }}</small>
+                            </div>
+                            <strong>{{ result.score }} pkt</strong>
                         </div>
-                        <strong>{{ result.score }} pkt</strong>
-                    </div>
-                {% empty %}
-                    <p>Nie ukończyłeś jeszcze żadnego quizu.</p>
-                {% endfor %}
-            </div>
+                    {% empty %}
+                        <p>Nie ukończyłeś jeszcze żadnego quizu.</p>
+                    {% endfor %}
+                </div>
+            </details>
 
         </div>
     </section>

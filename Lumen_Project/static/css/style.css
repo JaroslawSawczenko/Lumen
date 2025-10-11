@@ -1,73 +1,3 @@
-/* === RESET I GŁÓWNE STYLE === */
-* {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-}
-
-body {
-   font-family: Arial, sans-serif;
-   line-height: 1.6;
-   background-color: #f4f4f4;
-   color: #333;
-   position: relative;
-   min-height: 100vh;
-   padding-bottom: 80px; /* Wysokość stopki + margines */
-}
-
-.container {
-   width: 90%;
-   max-width: 1200px;
-   margin: auto;
-   overflow: hidden;
-   padding: 0 20px;
-}
-
-/* === NAGŁÓWEK === */
-.header {
-   background: #333;
-   color: #fff;
-   padding: 1rem 0;
-   border-bottom: #0779e4 3px solid;
-}
-
-.header .container {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-}
-
-.header .logo a {
-   font-style: italic;
-   color: #fff;
-   text-decoration: none;
-   font-size: 1.5rem;
-   font-weight: bold;
-}
-
-.navigation a {
-   color: #fff;
-   text-decoration: none;
-   margin-left: 20px;
-   transition: color 0.3s ease;
-}
-
-.navigation a:hover {
-   color: #0779e4;
-}
-
-/* === GŁÓWNA ZAWARTOŚĆ === */
-.main-content {
-   padding: 2rem 0;
-}
-
-.main-content h2 {
-    margin-bottom: 1.5rem;
-    color: #333;
-}
-
-/* === PRZYCISKI === */
-.btn {
 /* === ZMIENNE CSS I RESET === */
 :root {
     --primary-color: #4A90E2; /* Bardziej stonowany niebieski */
@@ -144,7 +74,7 @@ body {
 /* === GŁÓWNA ZAWARTOŚĆ === */
 .main-content {
    padding: 2.5rem 0;
-   flex: 1; /* Sprawia, że main zajmuje dostępną przestrzeń */
+   flex: 1;
 }
 
 .main-content h2 {
@@ -154,19 +84,7 @@ body {
     font-size: 2.2rem;
 }
 
-/* === WIADOMOŚCI (ALERTY) === */
-.messages {
-    width: 100%;
-    margin-bottom: 1.5rem;
-}
-.alert {
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    color: #fff;
-    background-color: var(--primary-color);
-}
-
-/* === KARTY QUIZÓW === */
+/* === KARTY QUIZÓW (Kafelki) === */
 .quiz-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -189,28 +107,34 @@ body {
     box-shadow: 0 8px 25px rgba(0,0,0,0.12);
 }
 
-.quiz-card h3 {
-    margin-bottom: 0.75rem;
-    color: var(--dark-color);
-    padding: 1.5rem 1.5rem 0 1.5rem;
-}
-.quiz-card p {
-    padding: 0 1.5rem;
+.quiz-card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
 }
-.quiz-card p:last-of-type {
-    margin-bottom: 1.5rem;
-}
-.quiz-card .btn {
-    width: 100%;
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-    margin-top: auto; /* Przycisk zawsze na dole */
-    padding: 15px 20px;
-    font-weight: 700;
-    text-transform: uppercase;
+
+.quiz-card-content h3 {
+    margin-bottom: 0.75rem;
+    color: var(--dark-color);
 }
 
-/* Dodatkowa etykieta dla admina */
+.quiz-card-content p {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+.quiz-card .btn {
+    border-radius: 0;
+    margin-top: auto;
+    width: 100%;
+    padding: 15px 20px;
+    font-weight: 700;
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+/* Etykieta dla admina */
 .unpublished-badge {
     position: absolute;
     top: 10px;
@@ -222,6 +146,7 @@ body {
     border-radius: 5px;
     font-weight: 700;
     text-transform: uppercase;
+    z-index: 2;
 }
 
 /* === PRZYCISKI === */
@@ -249,13 +174,84 @@ body {
    color: #fff;
    text-align: center;
    padding: 1.5rem 0;
-   margin-top: auto; /* Stopka zawsze na dole */
+   margin-top: auto;
 }
 
-/* === KARTA PROFILU I INNE === */
-.profile-card, .form-container {
+/* === POZOSTAŁE === */
+.profile-card {
     background: #fff;
     padding: 2.5rem;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
+}
+
+
+/* Stylizacja nagłówka profilu i awatara */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Odstęp między awatarem a tekstem */
+    margin-bottom: 1.5rem;
+}
+
+.profile-header img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Okrągły awatar */
+    object-fit: cover; /* Zapobiega zniekształceniu obrazu */
+    border: 4px solid var(--primary-color);
+    box-shadow: var(--shadow);
+}
+
+.profile-header h2 {
+    margin-bottom: 0.5rem;
+    text-align: left; /* Wyrównanie do lewej, gdy jest obok awatara */
+}
+
+/* Stylizacja chowanych sekcji (details) */
+.profile-card details {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+}
+
+.profile-card details summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--dark-color);
+}
+
+/* Zwiększenie odstępu dla formularza zmiany awatara */
+.profile-card details form {
+    margin-top: 1rem;
+    margin-bottom: 1rem; /* Dodatkowy odstęp od dołu */
+}
+
+/* Lepsze rozdzielenie elementów w historii gier */
+.quiz-history-list {
+    margin-top: 1rem;
+}
+
+.quiz-history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.quiz-history-item:last-child {
+    border-bottom: none;
+}
+
+.quiz-history-item p, .quiz-history-item small {
+    margin: 0;
+}
+
+.quiz-history-item strong {
+    font-size: 1.2em;
+    color: var(--primary-color);
+    white-space: nowrap; /* Zapobiega łamaniu wyniku */
+    margin-left: 1rem;
 }

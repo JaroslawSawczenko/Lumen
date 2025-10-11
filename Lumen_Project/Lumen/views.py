@@ -72,10 +72,10 @@ def quiz_list(request: HttpRequest) -> HttpResponse:
     - Zwykli użytkownicy widzą tylko opublikowane quizy.
     """
     if request.user.is_authenticated and request.user.is_superuser:
-        # Administrator widzi wszystkie quizy
+        # Administrator widzi wszystkie quizy, najnowsze na górze.
         quizzes = Quiz.objects.all().order_by('-created_at')
     else:
-        # Zwykły użytkownik widzi tylko opublikowane quizy
+        # Zwykły użytkownik widzi tylko opublikowane quizy.
         quizzes = Quiz.objects.filter(is_published=True).order_by('-created_at')
 
     context = {

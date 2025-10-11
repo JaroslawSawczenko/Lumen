@@ -1,6 +1,6 @@
-/* === ZMIENNE CSS I RESET === */
+/* === ZMIENNE GŁÓWNE I RESET === */
 :root {
-    --primary-color: #4A90E2; /* Bardziej stonowany niebieski */
+    --primary-color: #4A90E2;
     --primary-hover-color: #357ABD;
     --dark-color: #2c3e50;
     --light-color: #f8f9fa;
@@ -9,249 +9,51 @@
     --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     --border-radius: 8px;
 }
-
-* {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-   font-family: 'Montserrat', sans-serif;
-   line-height: 1.7;
-   background-color: var(--light-color);
-   color: var(--text-color);
-   display: flex;
-   flex-direction: column;
-   min-height: 100vh;
+   font-family: 'Montserrat', sans-serif; /* Pamiętaj o dodaniu tej czcionki w HTML */
+   line-height: 1.7; background-color: var(--light-color); color: var(--text-color);
+   display: flex; flex-direction: column; min-height: 100vh;
 }
-
-.container {
-   width: 90%;
-   max-width: 1200px;
-   margin: auto;
-   padding: 0 20px;
-}
+.container { width: 90%; max-width: 1200px; margin: auto; padding: 0 20px; }
 
 /* === NAGŁÓWEK === */
 .header {
-   background: #fff;
-   color: var(--dark-color);
-   padding: 1rem 0;
-   box-shadow: var(--shadow);
-   border-bottom: 3px solid var(--primary-color);
-   position: sticky;
-   top: 0;
-   z-index: 1000;
+   background: #fff; padding: 1rem 0; box-shadow: var(--shadow);
+   border-bottom: 3px solid var(--primary-color); position: sticky; top: 0; z-index: 1000;
 }
-
-.header .container {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-}
-
-.header .logo a {
-   color: var(--dark-color);
-   text-decoration: none;
-   font-size: 1.8rem;
-   font-weight: 700;
-   letter-spacing: 1px;
-}
-
-.navigation a {
-   color: var(--dark-color);
-   text-decoration: none;
-   margin-left: 25px;
-   transition: color 0.3s ease;
-   font-weight: 700;
-}
-
-.navigation a:hover {
-   color: var(--primary-color);
-}
+.header .container { display: flex; justify-content: space-between; align-items: center; }
+.header .logo a { color: var(--dark-color); text-decoration: none; font-size: 1.8rem; font-weight: 700; }
+.navigation a { color: var(--dark-color); text-decoration: none; margin-left: 25px; transition: color 0.3s ease; font-weight: 700; }
+.navigation a:hover { color: var(--primary-color); }
 
 /* === GŁÓWNA ZAWARTOŚĆ === */
-.main-content {
-   padding: 2.5rem 0;
-   flex: 1;
-}
+.main-content { padding: 2.5rem 0; flex: 1; }
 
-.main-content h2 {
-    margin-bottom: 2rem;
-    color: var(--dark-color);
-    text-align: center;
-    font-size: 2.2rem;
-}
-
-/* === KARTY QUIZÓW (Kafelki) === */
-.quiz-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 25px;
-}
-
+/* === KAFELKI QUIZÓW === */
+.quiz-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
 .quiz-card {
-    background: #fff;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
+    background: #fff; border-radius: var(--border-radius); box-shadow: var(--shadow);
+    display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; position: relative;
 }
-
-.quiz-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-}
-
-.quiz-card-content {
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.quiz-card-content h3 {
-    margin-bottom: 0.75rem;
-    color: var(--dark-color);
-}
-
-.quiz-card-content p {
-    flex-grow: 1;
-    margin-bottom: 1rem;
-}
-
+.quiz-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+.quiz-card-content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+.quiz-card-content h3 { margin-bottom: 0.75rem; color: var(--dark-color); }
+.quiz-card-content p { flex-grow: 1; margin-bottom: 1rem; }
 .quiz-card .btn {
-    border-radius: 0;
-    margin-top: auto;
-    width: 100%;
-    padding: 15px 20px;
-    font-weight: 700;
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    margin-top: auto; width: 100%; padding: 15px 20px; font-weight: 700; text-transform: uppercase;
 }
-
-/* Etykieta dla admina */
 .unpublished-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #e74c3c;
-    color: #fff;
-    padding: 3px 8px;
-    font-size: 0.7rem;
-    border-radius: 5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    z-index: 2;
+    position: absolute; top: 10px; right: 10px; background: #e74c3c; color: #fff;
+    padding: 3px 8px; font-size: 0.7rem; border-radius: 5px; font-weight: 700; z-index: 2;
 }
 
-/* === PRZYCISKI === */
+/* === PRZYCISKI I STOPKA === */
 .btn {
-    display: inline-block;
-    background: var(--primary-color);
-    color: #fff;
-    padding: 12px 25px;
-    text-decoration: none;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-align: center;
+    display: inline-block; background: var(--primary-color); color: #fff; padding: 12px 25px;
+    text-decoration: none; border: none; border-radius: var(--border-radius); cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; text-align: center;
 }
-
-.btn:hover {
-    background: var(--primary-hover-color);
-    transform: scale(1.02);
-}
-
-/* === STOPKA === */
-.footer {
-   background: var(--dark-color);
-   color: #fff;
-   text-align: center;
-   padding: 1.5rem 0;
-   margin-top: auto;
-}
-
-/* === POZOSTAŁE === */
-.profile-card {
-    background: #fff;
-    padding: 2.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-}
-
-
-/* Stylizacja nagłówka profilu i awatara */
-.profile-header {
-    display: flex;
-    align-items: center;
-    gap: 25px; /* Odstęp między awatarem a tekstem */
-    margin-bottom: 1.5rem;
-}
-
-.profile-header img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%; /* Okrągły awatar */
-    object-fit: cover; /* Zapobiega zniekształceniu obrazu */
-    border: 4px solid var(--primary-color);
-    box-shadow: var(--shadow);
-}
-
-.profile-header h2 {
-    margin-bottom: 0.5rem;
-    text-align: left; /* Wyrównanie do lewej, gdy jest obok awatara */
-}
-
-/* Stylizacja chowanych sekcji (details) */
-.profile-card details {
-    margin-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
-    padding-top: 1.5rem;
-}
-
-.profile-card details summary {
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--dark-color);
-}
-
-/* Zwiększenie odstępu dla formularza zmiany awatara */
-.profile-card details form {
-    margin-top: 1rem;
-    margin-bottom: 1rem; /* Dodatkowy odstęp od dołu */
-}
-
-/* Lepsze rozdzielenie elementów w historii gier */
-.quiz-history-list {
-    margin-top: 1rem;
-}
-
-.quiz-history-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.quiz-history-item:last-child {
-    border-bottom: none;
-}
-
-.quiz-history-item p, .quiz-history-item small {
-    margin: 0;
-}
-
-.quiz-history-item strong {
-    font-size: 1.2em;
-    color: var(--primary-color);
-    white-space: nowrap; /* Zapobiega łamaniu wyniku */
-    margin-left: 1rem;
-}
+.btn:hover { background: var(--primary-hover-color); transform: scale(1.02); }
+.footer { background: var(--dark-color); color: #fff; text-align: center; padding: 1.5rem 0; margin-top: auto; }

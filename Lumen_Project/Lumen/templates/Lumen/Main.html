@@ -1,92 +1,61 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="pl">
-
 <head>
    <meta charset="UTF-8">
    <title>Lumen - Twoje Centrum Quizów</title>
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="description" content="Platforma z quizami Lumen">
-   <meta name="author" content="Jaroslav Savczenko">
-
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-
 <body>
    <header class="header">
       <section class="container">
          <h1 class="logo"><a href="{% url 'quiz_list' %}">LUMEN</a></h1>
-<nav class="navigation">
-    <a href="{% url 'quiz_list' %}">Home</a>
-    <a href="{% url 'quiz_list' %}">Quizy</a>
-
-    {% if user.is_authenticated %}
-        <a href="{% url 'user_profile' %}">Mój profil</a>
-
-        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <a href="#" onclick="
-                if (confirm('Czy na pewno chcesz się wylogować?')) {
-                    document.getElementById('logout-form').submit();
-                }
-                return false;
-            ">Wyloguj</a>
-        </form>
-        {% else %}
-        <a href="{% url 'login' %}">Zaloguj</a>
-        <a href="{% url 'signup' %}">Zarejestruj się</a>
-    {% endif %}
-</nav>
+         <nav class="navigation">
+            <a href="{% url 'quiz_list' %}">Quizy</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'user_profile' %}">Mój profil</a>
+                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">Wyloguj</a>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Zaloguj</a>
+                <a href="{% url 'signup' %}">Rejestracja</a>
+            {% endif %}
+         </nav>
       </section>
    </header>
 
    {% block content %}
    <main class="main-content">
       <section class="container">
-
-         {% if messages %}
-            <div class="messages">
-               {% for message in messages %}
-                  <div class="alert alert-{{ message.tags }}">
-                     {{ message }}
-                  </div>
-               {% endfor %}
-            </div>
-         {% endif %}
-
-  <section class="quiz-list">
-    {% for quiz in quizzes %}
-    <article class="quiz-card">
-        {% if user.is_superuser and not quiz.is_published %}
-            <span class="unpublished-badge">Nieopublikowany</span>
-        {% endif %}
-
-        <div class="quiz-card-content">
-            <h3>{{ quiz.title }}</h3>
-            <p>{{ quiz.description }}</p>
-            <p><strong>Kategoria:</strong> {{ quiz.category }}</p>
-        </div>
-
-        <a href="{% url 'quiz_detail' quiz.id %}" class="btn">Rozpocznij</a>
-    </article>
-    {% empty %}
-    <p>Obecnie nie ma żadnych dostępnych quizów. Zajrzyj ponownie później!</p>
-    {% endfor %}
-</section>
-
+         <section class="quiz-list">
+            {% for quiz in quizzes %}
+            <article class="quiz-card">
+               {% if user.is_superuser and not quiz.is_published %}
+                  <span class="unpublished-badge">Nieopublikowany</span>
+               {% endif %}
+               <div class="quiz-card-content">
+                  <h3>{{ quiz.title }}</h3>
+                  <p>{{ quiz.description }}</p>
+                  <p><strong>Kategoria:</strong> {{ quiz.category }}</p>
+               </div>
+               <a href="{% url 'quiz_detail' quiz.id %}" class="btn">Rozpocznij</a>
+            </article>
+            {% empty %}
+            <p>Obecnie nie ma żadnych dostępnych quizów. Użyj skryptu importer.py, aby dodać nowe!</p>
+            {% endfor %}
+         </section>
       </section>
    </main>
    {% endblock %}
 
    <footer class="footer">
-      <section class="container">
-         <p>&copy; 2025 Lumen Project. Wszelkie prawa zastrzeżone.</p>
-      </section>
+      <p>&copy; 2025 Lumen Project. Wszelkie prawa zastrzeżone.</p>
    </footer>
 </body>
-
 </html>

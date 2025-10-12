@@ -6,10 +6,12 @@
 
     <div class="profile-header">
         {% if profile.avatar %}
+            {# 2. Jeśli tak, wyświetl go. #}
             <img src="{{ profile.avatar.url }}" alt="Awatar">
         {% else %}
-            <img src="{% static 'images/default_avatar.jpg' %}" alt="Awatar">
+            <img src="{% static 'images/default_avatar.jpg' %}" alt="Domyślny awatar">
         {% endif %}
+
         <div>
             <h2>{{ user.username }}</h2>
             <p><strong>Poziom:</strong> {{ profile.level }}</p>

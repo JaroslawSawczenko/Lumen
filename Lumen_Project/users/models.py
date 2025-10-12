@@ -3,7 +3,7 @@ from django.db import models
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
-    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True, default='avatars/default.png')
+    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     xp = models.IntegerField(default=0)
     level = models.IntegerField(default=1)
 

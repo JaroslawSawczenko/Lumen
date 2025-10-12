@@ -4,9 +4,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+#////////////////////////////////
+DEBUG = True #Zmien na False , informacje o błędach, mogą być wykorzystane przez atakujących
+#////////////////////////////////
 
-DEBUG = True
-
+# Musisz dodać tutaj domenę, pod którą będzie działać Twoja aplikacja
 ALLOWED_HOSTS = []
 
 SECRET_KEY = os.getenv('SECRET_KEY')

@@ -7,18 +7,34 @@
     <hr style="margin: 1.5rem 0; border-color: var(--border-color);">
 
     <h3>{{ question.text }}</h3>
+    {% if question.image %}
+        <img src="{{ question.image.url }}" alt="Ilustracja do pytania" class="question-image">
+    {% endif %}
 
     <form method="POST" action="" style="margin-top: 2rem;">
         {% csrf_token %}
 
-        {% for answer in answers %}
-        <div class="answer-option">
-            <input type="radio" name="answer" value="{{ answer.id }}" id="answer{{ answer.id }}" required>
+        {% for answer in question.answers.all %}
+        <div class="answer-option
+            {% if is_answered and answer.id == correct_answer.id %} correct-answer{% endif %}
+            {% if is_answered and answer.id == selected_answer.id and not selected_answer.is_correct %} incorrect-answer{% endif %}
+        ">
+            <input type="radio" name="answer" value="{{ answer.id }}" id="answer{{ answer.id }}" required
+                   {% if is_answered %}disabled{% endif %}
+                   {% if not is_answered and forloop.first %}checked{% endif %}>
             <label for="answer{{ answer.id }}">{{ answer.text }}</label>
         </div>
         {% endfor %}
 
-        <button type="submit" class="btn" style="margin-top: 2rem;">Odpowiedz</button>
+        {% if is_answered %}
+            {% if question.order < total_questions %}
+                <a href="{% url 'play_quiz_view' quiz_id=quiz.id question_order=question.order|add:1 %}" class="btn" style="margin-top: 2rem;">Następne pytanie &rarr;</a>
+            {% else %}
+                 <a href="{% url 'finish_quiz_view' quiz_id=quiz.id %}" class="btn" style="margin-top: 2rem;">Zakończ Quiz i zobacz wyniki!</a>
+            {% endif %}
+        {% else %}
+            <button type="submit" class="btn" style="margin-top: 2rem;">Odpowiedz</button>
+        {% endif %}
     </form>
 </div>
 {% endblock %}

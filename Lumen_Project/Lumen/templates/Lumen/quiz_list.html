@@ -1,0 +1,28 @@
+{% extends "Lumen/Main.html" %}
+
+{% block content %}
+<div class="quiz-list">
+    {% for quiz in quizzes %}
+    <div class="quiz-card">
+        {% if not quiz.is_published and user.is_superuser %}
+            <span class="unpublished-badge">Nieopublikowany</span>
+        {% endif %}
+
+        <div class="quiz-card-content">
+            {% if quiz.category %}
+                <span class="category-tag">{{ quiz.category }}</span>
+            {% endif %}
+
+            <h3>{{ quiz.title }}</h3>
+            <p>{{ quiz.description|truncatewords:20 }}</p>
+        </div>
+        <a href="{% url 'quiz_detail' quiz_id=quiz.id %}" class="btn">Zobacz szczegóły</a>
+    </div>
+    {% empty %}
+        <div class="empty-state-card">
+            <h3>Brak dostępnych quizów</h3>
+            <p>Wygląda na to, że nie ma jeszcze żadnych quizów do wyświetlenia. Wróć później!</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

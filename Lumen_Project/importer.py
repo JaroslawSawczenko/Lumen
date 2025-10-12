@@ -4,18 +4,19 @@ import html
 import random
 from typing import Dict, Any, List
 
-# --- ZDEFINIOWANE NA STAŁE ADRESY URL ---
+# --- STAŁE ---
 LUMEN_API_URL: str = "http://127.0.0.1:8000/api/quizzes/"
 LOGIN_URL: str = "http://127.0.0.1:8000/users/login/"
 OPENTDB_API_URL: str = "https://opentdb.com/api.php"
 
+# Lista ciekawych kategorii z Open Trivia DB
+CATEGORIES = {
+    "Historia": 23, "Geografia": 22, "Nauka i Natura": 17, "Komputery": 18,
+    "Filmy": 11, "Muzyka": 12, "Gry Wideo": 15, "Mitologia": 20,
+}
+
 
 def authenticate_and_get_csrf(session: requests.Session) -> str | None:
-    """
-    Profesjonalna funkcja uwierzytelniająca.
-    Pobiera sessionid od użytkownika, ustawia je w sesji requests
-    i automatycznie zdobywa token CSRF, który jest niezbędny do wysyłania danych.
-    """
     print("--- Krok 1: Uwierzytelnienie ---")
     print("Proszę podać 'sessionid' z ciasteczek przeglądarki po zalogowaniu do panelu admina.")
     session_id = input("Wklej wartość sessionid: ").strip()
@@ -23,39 +24,32 @@ def authenticate_and_get_csrf(session: requests.Session) -> str | None:
         print("\nBŁĄD: Session ID nie może być puste.", file=sys.stderr)
         return None
 
-    # Ustawiamy `sessionid` w obiekcie sesji. Od teraz każde zapytanie będzie go używać.
     session.cookies.set('sessionid', session_id)
-
     try:
-        # Wykonujemy zapytanie do dowolnej strony, która wymaga logowania, aby serwer odesłał nam CSRF token.
         response = session.get(LOGIN_URL)
         response.raise_for_status()
-
-        # Token CSRF jest automatycznie zapisywany w ciasteczkach sesji.
         csrf_token = session.cookies.get('csrftoken')
         if not csrf_token:
             print("\nBŁĄD: Nie udało się uzyskać tokena CSRF. Sprawdź, czy sessionid jest poprawne.", file=sys.stderr)
             return None
-
-        print(" SUCCESS: Pomyślnie uzyskano dane uwierzytelniające.")
+        print("✅ SUCCESS: Pomyślnie uzyskano dane uwierzytelniające.")
         return csrf_token
-    except requests.RequestException as e:
+    except requests.RequestException:
         print(f"\nBŁĄD: Nie udało się połączyć z serwerem Lumen. Upewnij się, że serwer działa w drugim terminalu.",
               file=sys.stderr)
         return None
 
 
-def fetch_quizzes_from_opentdb(amount: int, category: int) -> List[Dict[str, Any]]:
-    """Pobiera pytania z zewnętrznego API Open Trivia DB."""
-    params = {'amount': amount, 'category': category, 'type': 'multiple'}
+def fetch_quizzes_from_opentdb(amount: int, category_id: int, category_name: str) -> List[Dict[str, Any]]:
+    params = {'amount': amount, 'category': category_id, 'type': 'multiple'}
     try:
         response = requests.get(OPENTDB_API_URL, params=params)
         response.raise_for_status()
         data = response.json()
         if data.get("response_code") != 0:
-            print("BŁĄD: API Open Trivia DB zwróciło błąd.", file=sys.stderr)
+            print(f"BŁĄD: Brak pytań w kategorii '{category_name}'. Spróbuj ponownie.", file=sys.stderr)
             return []
-        print(f" SUCCESS: Pobrano {len(data.get('results', []))} pytań z Open Trivia DB.")
+        print(f"✅ SUCCESS: Pobrano {len(data.get('results', []))} pytań z kategorii '{category_name}'.")
         return data.get('results', [])
     except requests.RequestException as e:
         print(f"\nBŁĄD: Nie udało się połączyć z Open Trivia DB API: {e}", file=sys.stderr)
@@ -63,14 +57,7 @@ def fetch_quizzes_from_opentdb(amount: int, category: int) -> List[Dict[str, Any
 
 
 def post_quiz_to_lumen(session: requests.Session, quiz_payload: Dict[str, Any], csrf_token: str) -> bool:
-    """
-    Wysyła gotowy quiz do Twojego API.
-    Dzięki użyciu obiektu sesji, ciasteczka logowania (`sessionid`) są wysyłane automatycznie.
-    """
-    headers = {
-        'X-CSRFToken': csrf_token,
-        'Referer': LOGIN_URL  # Dobra praktyka, symuluje zapytanie z przeglądarki.
-    }
+    headers = {'X-CSRFToken': csrf_token, 'Referer': LOGIN_URL}
     try:
         response = session.post(LUMEN_API_URL, json=quiz_payload, headers=headers)
         if 200 <= response.status_code < 300:
@@ -86,7 +73,6 @@ def post_quiz_to_lumen(session: requests.Session, quiz_payload: Dict[str, Any], 
 
 
 def transform_data(questions: List[Dict[str, Any]]) -> Dict[str, Any]:
-    """Przekształca dane z Open Trivia DB na format wymagany przez Twoje API."""
     category_name = html.unescape(questions[0]['category'])
     questions_payload = []
     for i, q in enumerate(questions):
@@ -98,23 +84,22 @@ def transform_data(questions: List[Dict[str, Any]]) -> Dict[str, Any]:
     quiz_payload = {
         "title": f"Quiz o {category_name} (Auto-Import)",
         "description": f"Quiz wygenerowany automatycznie z {len(questions)} pytaniami.",
-        "category": category_name,
-        "is_published": True,
-        "questions": questions_payload
+        "category": category_name, "is_published": True, "questions": questions_payload
     }
     return quiz_payload
 
 
 def main() -> None:
-    """Główna funkcja orkiestrująca cały proces."""
-    # Używamy jednego obiektu `Session` do wszystkich zapytań, aby zachować stan logowania.
     with requests.Session() as session:
         csrf_token = authenticate_and_get_csrf(session)
         if not csrf_token:
             sys.exit(1)
 
-        print(f"\n--- Krok 2: Pobieranie danych ---")
-        questions = fetch_quizzes_from_opentdb(amount=10, category=18)  # Kategoria: Komputery
+        # Wybierz losową kategorię z naszej listy
+        category_name, category_id = random.choice(list(CATEGORIES.items()))
+
+        print(f"\n--- Krok 2: Pobieranie danych dla kategorii: {category_name} ---")
+        questions = fetch_quizzes_from_opentdb(amount=10, category_id=category_id, category_name=category_name)
         if not questions:
             return
 

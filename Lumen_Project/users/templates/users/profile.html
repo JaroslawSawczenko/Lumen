@@ -2,58 +2,54 @@
 {% load static %}
 
 {% block content %}
-<main class="main-content">
-    <section class="container">
-        <div class="profile-card">
+<div class="profile-card">
 
-            <div class="profile-header">
-                {% if profile.avatar %}
-                    <img src="{{ profile.avatar.url }}" alt="Awatar">
-                {% else %}
-                    <img src="{% static 'images/default_avatar.jpg' %}" alt="Awatar">
-                {% endif %}
-                <div>
-                    <h2>{{ user.username }}</h2>
-                    <p><strong>Poziom:</strong> {{ profile.level }}</p>
-                </div>
-            </div>
-
-            <div class="xp-progress">
-                <p><strong>Postęp do następnego poziomu:</strong> {{ profile.xp }} / {{ profile.xp_required_for_next_level }} XP</p>
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" style="width: {{ profile.xp_progress_percentage }}%;">
-                        {{ profile.xp_progress_percentage|floatformat:0 }}%
-                    </div>
-                </div>
-            </div>
-
-            <details>
-                <summary>Zmień awatar</summary>
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn">Zapisz nowy awatar</button>
-                </form>
-            </details>
-
-            <details>
-                <summary>Historia Twoich gier</summary>
-                <div class="quiz-history-list">
-                    {% for result in quiz_results %}
-                        <div class="quiz-history-item">
-                            <div>
-                                <p><strong>Quiz:</strong> {{ result.quiz.title }}</p>
-                                <small>Ukończono: {{ result.completed_at|date:"d.m.Y, H:i" }}</small>
-                            </div>
-                            <strong>{{ result.score }} pkt</strong>
-                        </div>
-                    {% empty %}
-                        <p>Nie ukończyłeś jeszcze żadnego quizu.</p>
-                    {% endfor %}
-                </div>
-            </details>
-
+    <div class="profile-header">
+        {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}" alt="Awatar">
+        {% else %}
+            <img src="{% static 'images/default_avatar.jpg' %}" alt="Awatar">
+        {% endif %}
+        <div>
+            <h2>{{ user.username }}</h2>
+            <p><strong>Poziom:</strong> {{ profile.level }}</p>
         </div>
-    </section>
-</main>
+    </div>
+
+    <div class="xp-progress">
+        <p>Postęp do następnego poziomu: {{ profile.xp }} / {{ profile.xp_required_for_next_level }} XP</p>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: {{ profile.xp_progress_percentage }}%;">
+                {{ profile.xp_progress_percentage|floatformat:0 }}%
+            </div>
+        </div>
+    </div>
+
+    <details>
+        <summary>Zmień awatar</summary>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Zapisz nowy awatar</button>
+        </form>
+    </details>
+
+    <details>
+        <summary>Historia Twoich gier</summary>
+        <div class="quiz-history-list">
+            {% for result in quiz_results %}
+                <div class="quiz-history-item">
+                    <div>
+                        <p><strong>{{ result.quiz.title }}</strong></p>
+                        <small>Ukończono: {{ result.completed_at|date:"d.m.Y, H:i" }}</small>
+                    </div>
+                    <strong>{{ result.score }} pkt</strong>
+                </div>
+            {% empty %}
+                <p>Nie ukończyłeś jeszcze żadnego quizu.</p>
+            {% endfor %}
+        </div>
+    </details>
+
+</div>
 {% endblock %}

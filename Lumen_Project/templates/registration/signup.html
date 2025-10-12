@@ -1,16 +1,12 @@
 {% extends "Lumen/Main.html" %}
 
 {% block content %}
-<main class="main-content">
-    <section class="container">
-        <h2>Rejestracja</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn">Zarejestruj się</button>
-        </form>
-    </section>
-</main>
+<div class="form-container">
+    <h2>Rejestracja</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Zarejestruj się</button>
+    </form>
+</div>
 {% endblock %}
-
-

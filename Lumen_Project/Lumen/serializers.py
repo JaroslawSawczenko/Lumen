@@ -2,7 +2,6 @@ from rest_framework import serializers
 from django.db import transaction
 from .models import Quiz, Question, Answer
 
-
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
@@ -13,7 +12,6 @@ class AnswerSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         ret.pop('is_correct', None)
         return ret
-
 
 class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True)

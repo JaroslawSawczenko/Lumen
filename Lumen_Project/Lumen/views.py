@@ -17,7 +17,6 @@ def quiz_list(request: HttpRequest) -> HttpResponse:
         quizzes = Quiz.objects.filter(is_published=True).order_by('-created_at')
 
     context = {'quizzes': quizzes}
-    # POPRAWKA: Renderujemy nowy, dedykowany szablon listy quizów.
     return render(request, 'Lumen/quiz_list.html', context)
 
 def quiz_detail(request: HttpRequest, quiz_id: int) -> HttpResponse:
@@ -56,7 +55,6 @@ def play_quiz_view(request: HttpRequest, quiz_id: int, question_order: int) -> H
             request.session[f'quiz_{quiz_id}_score'] = request.session.get(f'quiz_{quiz_id}_score', 0) + 10
             request.session.save()
 
-        # Przygotuj kontekst do wyświetlenia wyniku i informacji zwrotnej
         context = {
             'quiz': quiz,
             'question': question,

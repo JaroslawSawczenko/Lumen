@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .models import UserProfile
+from .forms import SignUpForm
 
 class UserProfileXPTest(TestCase):
     """Testuje mechanizm dodawania XP i awansowania na wyższe poziomy."""
@@ -25,12 +26,28 @@ class UserProfileXPTest(TestCase):
         self.assertEqual(self.profile.xp, 10)
 
 
+class SignUpFormTest(TestCase):
+    def test_duplicate_email_is_invalid(self):
+        """Sprawdza, czy formularz odrzuca zduplikowany email."""
+        # Tworzymy użytkownika, którego email spróbujemy użyć ponownie
+        User.objects.create_user('testuser1', email='test@example.com', password='password')
 
+        form_data = {
+            'username': 'testuser2',
+            'email': 'test@example.com',  # Ten sam email
+            'password': 'somepassword',
+        }
 
+        form = SignUpForm(data=form_data)
 
-
-
-
+        # Sprawdzamy, czy formularz jest nieważny
+        self.assertFalse(form.is_valid())
+        # Sprawdzamy, czy błąd dotyczy pola 'email'
+        self.assertIn('email', form.errors)
+        self.assertEqual(
+            form.errors['email'][0],
+            "Użytkownik z tym adresem email już istnieje."
+        )
 
 
 

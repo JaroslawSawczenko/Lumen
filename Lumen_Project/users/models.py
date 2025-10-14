@@ -32,6 +32,9 @@ class UserProfile(models.Model):
 
     def add_xp(self, amount: int) -> None:
         """Dodaje punkty XP i sprawdza, czy użytkownik powinien awansować."""
+        if amount < 0:
+            return  # Ignoruj ujemne wartości
+
         self.xp += amount
         # Pętla while na wypadek, gdyby użytkownik zdobył tyle XP, by awansować o kilka poziomów na raz
         while self.xp >= self.xp_required_for_next_level:

@@ -42,11 +42,18 @@ def play_quiz_view(request: HttpRequest, quiz_id: int, question_order: int) -> H
         request.session[f'quiz_{quiz_id}_score'] = 0
 
     if request.method == "POST":
-        # Logika po udzieleniu odpowiedzi przez użytkownika
         selected_answer_id = request.POST.get('answer')
         if not selected_answer_id:
-            # Jeśli ktoś wysłał pusty formularz, po prostu renderuj pytanie ponownie
-            return redirect('play_quiz_view', quiz_id=quiz.id, question_order=question_order)
+            # Jeśli nie wybrano odpowiedzi, wyrenderuj stronę ponownie z komunikatem o błędzie
+            context = {
+                'quiz': quiz,
+                'question': question,
+                'answers': question.answers.all(),
+                'total_questions': quiz.questions.count(),
+                'is_answered': False,
+                'error_message': 'Musisz wybrać jedną z odpowiedzi.'  # Dodajemy błąd do kontekstu
+            }
+            return render(request, "Lumen/play_quiz.html", context)
 
         selected_answer = get_object_or_404(Answer, pk=selected_answer_id)
         correct_answer = question.answers.get(is_correct=True)

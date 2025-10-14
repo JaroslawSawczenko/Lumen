@@ -11,6 +11,10 @@
         <img src="{{ question.image.url }}" alt="Ilustracja do pytania" class="question-image">
     {% endif %}
 
+    {% if error_message %}
+        <p style="color: #E74C3C; font-weight: bold; margin-top: 1rem;">{{ error_message }}</p>
+    {% endif %}
+
     <form method="POST" action="" style="margin-top: 2rem;">
         {% csrf_token %}
 

@@ -52,7 +52,7 @@ class QuestionInline(admin.TabularInline):
 
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
-    """Zaawansowana konfiguracja panelu admina для modelu Quiz."""
+    """Zaawansowana konfiguracja panelu admina dla modelu Quiz."""
     # Akcje hurtowe
     actions = ['publish_quizzes', 'unpublish_quizzes']
     # Ulepszony widok listy

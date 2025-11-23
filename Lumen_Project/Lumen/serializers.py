@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.db import transaction
 from .models import Quiz, Question, Answer
 
+
 class AnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
@@ -9,11 +10,14 @@ class AnswerSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
     def to_representation(self, instance):
-        # Ukrywa pole 'is_correct' przed zwykłymi użytkownikami API.
+        """Ukrywa pole is_correct przed zwykłymi użytkownikami."""
         ret = super().to_representation(instance)
-        if not self.context['request'].user.is_staff:
+        request = self.context.get('request')
+        # Jeśli nie ma requesta lub user nie jest administratorem -> usuń flagę poprawnej odpowiedzi
+        if not request or not request.user.is_staff:
             ret.pop('is_correct', None)
         return ret
+
 
 class QuestionSerializer(serializers.ModelSerializer):
     answers = AnswerSerializer(many=True)
@@ -22,6 +26,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ['id', 'text', 'order', 'answers']
         read_only_fields = ['id']
+
 
 class QuizDetailSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True)
@@ -33,24 +38,16 @@ class QuizDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'description', 'category', 'is_published', 'created_by', 'questions']
 
     def validate_questions(self, questions_data):
-        """
-        Walidacja na poziomie API:
-        1. Quiz musi mieć co najmniej jedno pytanie.
-        2. Każde pytanie musi mieć dokładnie jedną poprawną odpowiedź.
-        """
         if not questions_data:
             raise serializers.ValidationError("Quiz musi zawierać przynajmniej jedno pytanie.")
 
         for question_data in questions_data:
             answers = question_data.get('answers', [])
-            correct_answers_count = sum(1 for answer in answers if answer.get('is_correct'))
+            correct_count = sum(1 for a in answers if a.get('is_correct'))
 
-            if correct_answers_count != 1:
-                question_text = question_data.get('text', 'N/A')
+            if correct_count != 1:
                 raise serializers.ValidationError(
-                    f"Pytanie '{question_text[:30]}...' musi mieć dokładnie jedną poprawną odpowiedź. "
-                    f"Znaleziono: {correct_answers_count}."
-                )
+                    f"Pytanie musi mieć dokładnie jedną poprawną odpowiedź. Znaleziono: {correct_count}")
         return questions_data
 
     @transaction.atomic
@@ -61,11 +58,14 @@ class QuizDetailSerializer(serializers.ModelSerializer):
         for question_data in questions_data:
             answers_data = question_data.pop('answers')
             question = Question.objects.create(quiz=quiz, **question_data)
-            for answer_data in answers_data:
-                Answer.objects.create(question=question, **answer_data)
+
+            Answer.objects.bulk_create([
+                Answer(question=question, **ans) for ans in answers_data
+            ])
         return quiz
+
 
 class QuizListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quiz
-        fields = ['id', 'title', 'description', 'category']
+        fields = ['id', 'title', 'description', 'category', 'image', 'slug']

@@ -54,7 +54,6 @@
 #### Narzędzia Pomocnicze:
 - **Pillow**: Przetwarzanie obrazów (avatary)
 - **python-dotenv**: Zarządzanie zmiennymi środowiskowymi
-- **Requests**: Komunikacja z zewnętrznymi API
 
 ---
 

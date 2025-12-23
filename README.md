@@ -165,4 +165,4 @@ Lumen_Project/
 
 Autor
 
-Projekt wykonany w celach edukacyjnych i portfolio. Kontakt: [Twój Email / LinkedIn]
+Projekt wykonany w celach edukacyjnych i portfolio. Kontakt: https://www.linkedin.com/in/jaroslaw-savchenko-5438a5320?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app  telegram: t.me/Jaroslaw_I

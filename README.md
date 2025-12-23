@@ -146,7 +146,6 @@ python manage.py import_opentdb
 
 Skrypt ten pobiera pytania, tłumaczy strukturę JSON i zapisuje je w Twojej bazie danych jako obiekty Django.
 📂 Struktura Projektu
-Plaintext
 
 Lumen_Project/
 ├── Lumen_Project/      # Główne ustawienia (settings.py, urls.py)
@@ -162,7 +161,6 @@ Lumen_Project/
 ├── templates/          # Szablony HTML (Bootstrap)
 ├── manage.py           # Menedżer zadań Django
 └── requirements.txt    # Lista zależności
-
 Autor
 
 Projekt wykonany w celach edukacyjnych i portfolio. Kontakt: https://www.linkedin.com/in/jaroslaw-savchenko-5438a5320?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app  telegram: t.me/Jaroslaw_I

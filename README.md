@@ -50,7 +50,6 @@
 
 #### Frontend:
 - **HTML5/CSS3**: Struktura i stylizacja
-- **JavaScript**: Interaktywność po stronie klienta
 
 #### Narzędzia Pomocnicze:
 - **Pillow**: Przetwarzanie obrazów (avatary)

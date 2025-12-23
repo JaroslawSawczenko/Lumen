@@ -4,10 +4,7 @@
 
 1. [Wprowadzenie](#wprowadzenie)
 2. [Instalacja i Konfiguracja](#instalacja-i-konfiguracja)
-3. [Struktura Kodu](#struktura-kodu)
-4. [Modele Danych](#modele-danych)
-5. [Widoki i API](#widoki-i-api)
-6. [System Autentykacji](#system-autentykacji)
+
 
 
 ---

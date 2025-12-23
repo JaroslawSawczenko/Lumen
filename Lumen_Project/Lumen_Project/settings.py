@@ -12,13 +12,13 @@ def get_env_bool(var_name, default=False):
     return os.getenv(var_name, str(default)).lower() in ('true', '1', 't')
 
 # BEZPIECZEŃSTWO: Pobieraj z .env, domyślnie False na produkcji!
-DEBUG = get_env_bool('DEBUG', False)
+DEBUG = get_env_bool('DEBUG', True)
 
 # Klucz musi być ukryty
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Hosty jako lista oddzielona przecinkami
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -63,8 +63,12 @@ WSGI_APPLICATION = 'Lumen_Project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Dla łatwości lokalnie SQLite, na produkcji zmień na PostgreSQL
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME', 'lumen_db'), # Upewnij się, że ta baza istnieje w Postgres
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
@@ -93,3 +97,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'user_profile'
 LOGOUT_REDIRECT_URL = 'quiz_list'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')

@@ -1,0 +1,29 @@
+{% extends "Lumen/Main.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 50px auto; text-align: center; padding: 20px;">
+    <div style="background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 20px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+
+        <h2 style="color: #2c3e50; margin-bottom: 15px;">Potwierdź swój email</h2>
+
+        <p style="font-size: 16px; color: #555; line-height: 1.6;">
+            Na Twój adres email wysłaliśmy link aktywacyjny. <br>
+            Kliknij go, aby odblokować pełny dostęp do konta.
+        </p>
+
+        <div style="background-color: #e8f6f3; border-left: 4px solid #27ae60; padding: 15px; margin-top: 30px; text-align: left;">
+            <p style="margin: 0; font-size: 14px; color: #276648;">
+                <strong>Nie widzisz maila?</strong> Sprawdź folder SPAM lub oferty. Link jest ważny przez 24 godziny.
+            </p>
+        </div>
+
+        <a href="{% url 'login' %}" style="display: inline-block; margin-top: 30px; color: #2980b9; text-decoration: none;">
+            &larr; Wróć do logowania
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "Lumen/Main.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 50px auto; text-align: center; padding: 20px;">
+    <div style="background: white; padding: 40px; border-radius: 10px; border: 1px solid #ffcccc; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 20px;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+
+        <h2 style="color: #c0392b; margin-bottom: 15px;">Link nieprawidłowy lub wygasł</h2>
+
+        <p style="font-size: 16px; color: #555; line-height: 1.6;">
+            Niestety, ten link aktywacyjny nie działa. Mógł zostać już wykorzystany lub minął jego czas ważności.
+        </p>
+
+        <div style="margin-top: 30px;">
+            <a href="{% url 'register' %}" style="background-color: #2980b9; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-right: 10px;">
+                Zarejestruj się ponownie
+            </a>
+            <a href="{% url 'login' %}" style="background-color: #ecf0f1; color: #333; padding: 10px 20px; text-decoration: none; border-radius: 5px; border: 1px solid #ddd;">
+                Zaloguj się
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

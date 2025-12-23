@@ -397,32 +397,4 @@ python manage.py runserver
 3. Zaloguj się
 4. Przejdź do `/admin/` i zaloguj jako superuser
 
-### 3.3 Import Przykładowych Danych
-
-#### Import Pytań z Open Trivia Database
-
-```bash
-python manage.py import_opentdb
-
-# Z określoną kategorią i liczbą pytań:
-python manage.py import_opentdb --category=9 --amount=50
-
-# Kategorie OpenTDB:
-# 9: General Knowledge
-# 17: Science & Nature
-# 18: Science: Computers
-# 21: Sports
-# 23: History
-```
-
-**Weryfikacja:**
-```bash
-python manage.py shell
-```
-
-```python
-from Lumen.models import Question
-print(Question.objects.count())  # Liczba pytań
-```
-
 

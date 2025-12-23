@@ -1,166 +1,62 @@
-🧠 Lumen Quiz Platform
+# 🧠 Lumen Quiz Platform
 
-Profesjonalna platforma e-learningowa stworzona w Django. Aplikacja umożliwia rozwiązywanie quizów, śledzenie postępów, rywalizację o wyniki oraz dynamiczne zarządzanie bazą pytań.
-📋 Spis Treści
+**Profesjonalna platforma e-learningowa stworzona w Django.**  
+Aplikacja umożliwia rozwiązywanie quizów, śledzenie postępów, rywalizację o wyniki oraz dynamiczne zarządzanie bazą pytań.
 
-    O Projekcie
+---
 
-    Funkcjonalności
+## 📋 Spis Treści
 
-    Technologie
+1. [O Projekcie](#-o-projekcie)  
+2. [Funkcjonalności](#-funkcjonalności)  
+3. [Technologie](#-technologie)  
+4. [Instalacja — krok po kroku](#-instalacja-krok-po-kroku)  
+5. [Konfiguracja (.env)](#-konfiguracja-env)  
+6. [Importowanie pytań (OpenTDB)](#-importowanie-pytań-opentdb)  
+7. [Struktura projektu](#-struktura-projektu)  
+8. [Autor i kontakt](#-autor-i-kontakt)
 
-    Instalacja Krok po Kroku
+---
 
-    Konfiguracja (.env)
+## 🚀 O Projekcie
 
-    Importowanie Pytań (OpenTDB)
+**Lumen** to nowoczesna aplikacja webowa typu Quiz, łącząca prosty, responsywny interfejs z solidnym backendem. Została zaprojektowana z myślą o skalowalności i łatwej rozbudowie. System wspiera rejestrację użytkowników, profile z awatarami oraz zaawansowaną logikę punktacji i historii wyników.
 
-    Struktura Projektu
+---
 
-🚀 O Projekcie
+## ✨ Funkcjonalności
 
-Lumen to nowoczesna aplikacja webowa typu Quiz, która łączy w sobie elegancję interfejsu z potężnym backendem. Została zaprojektowana z myślą o skalowalności i łatwości rozbudowy. System obsługuje rejestrację użytkowników, profile z awatarami oraz rozbudowaną logikę naliczania punktów.
-✨ Funkcjonalności
-👤 Dla Użytkownika:
+### 👤 Dla użytkownika
+- **System kont:** rejestracja, logowanie i bezpieczne sesje.  
+- **Profil użytkownika:** awatar, biogram, statystyki (wyniki, XP).  
+- **Interaktywne quizy:** natychmiastowa informacja zwrotna.  
+- **Historia wyników:** zapis każdego podejścia z procentowym wynikiem.
 
-    System Kont: Rejestracja, logowanie i bezpieczne zarządzanie sesją.
+### ⚙️ Dla administratora
+- **Panel admina:** zarządzanie pytaniami, odpowiedziami, kategoriami.  
+- **Importer pytań:** automatyczne pobieranie pytań z Open Trivia Database.  
+- **API REST:** gotowe endpointy dla zewnętrznych klientów (frontend, mobile).
 
-    Profil Użytkownika: Możliwość ustawienia własnego awatara oraz edycji biogramu.
+---
 
-    Interaktywne Quizy: Rozwiązywanie testów z natychmiastową informacją zwrotną.
+## 🛠 Technologie
 
-    Historia Wyników: Każde podejście do quizu jest zapisywane wraz z uzyskanym wynikiem procentowym.
+- **Backend:** Python 3.10+ / Django 5.2  
+- **API:** Django REST Framework  
+- **Baza danych:** SQLite (dev) / PostgreSQL (prod)  
+- **Frontend:** HTML5, CSS3, Bootstrap 5  
+- **Grafika:** Pillow (obsługa awatarów)  
+- **Konfiguracja:** python-dotenv
 
-⚙️ Dla Administratora:
+---
 
-    Panel Administracyjny: Pełna kontrola nad pytaniami, odpowiedziami i kategoriami quizów.
+## 💻 Instalacja — krok po kroku
 
-    Importer Pytań: Wbudowane narzędzie do automatycznego pobierania pytań z zewnętrznego API (Open Trivia Database).
+> Instrukcja zakłada posiadanie zainstalowanego Pythona i Gita.
 
-    API REST: Endpointy przygotowane pod przyszłą aplikację mobilną lub frontend JS.
-
-🛠 Technologie
-
-Projekt wykorzystuje nowoczesny stack technologiczny:
-
-    Backend: Python 3.10+, Django 5.2
-
-    API: Django Rest Framework
-
-    Baza Danych: SQLite (deweloperska) / PostgreSQL (produkcyjna)
-
-    Frontend: HTML5, CSS3, Bootstrap 5 (Responsive Design)
-
-    Grafika: Pillow (obsługa obrazów)
-
-    Zarządzanie: python-dotenv (zmienne środowiskowe)
-
-💻 Instalacja Krok po Kroku (Jak uruchomić?)
-
-Aby uruchomić ten projekt na swoim komputerze, wykonaj poniższe kroki. Instrukcja zakłada, że masz zainstalowanego Pythona oraz Git.
-1. Pobierz kod
-
-Otwórz terminal (konsolę) i wpisz:
-Bash
-
+1. **Sklonuj repozytorium**
+```bash
 git clone https://github.com/jaroslawsawczenko/lumen.git
-cd lumen
+cd lumen ```
+2. Utwórz wirtualne środowisko
 
-2. Utwórz Wirtualne Środowisko
-
-To odizoluje biblioteki projektu od Twojego systemu.
-
-    Windows:
-    Bash
-
-python -m venv venv
-venv\Scripts\activate
-
-MacOS / Linux:
-Bash
-
-    python3 -m venv venv
-    source venv/bin/activate
-
-3. Zainstaluj Zależności
-
-Zainstaluj wszystkie wymagane biblioteki jednym poleceniem:
-Bash
-
-pip install -r requirements.txt
-
-4. Skonfiguruj Plik .env
-
-Projekt wymaga pliku konfiguracyjnego. Stworzyliśmy dla Ciebie szablon. Skopiuj go:
-
-    Windows:
-    Bash
-
-copy .env.example .env
-
-MacOS / Linux:
-Bash
-
-    cp .env.example .env
-
-Teraz projekt użyje bezpiecznych ustawień domyślnych i bazy SQLite.
-5. Przygotuj Bazę Danych
-
-Utwórz tabele w bazie danych:
-Bash
-
-python manage.py migrate
-
-6. (Opcjonalnie) Stwórz Administratora
-
-Aby mieć dostęp do panelu admina, utwórz superużytkownika:
-Bash
-
-python manage.py createsuperuser
-
-7. Uruchom Serwer!
-Bash
-
-python manage.py runserver
-
-Wejdź w przeglądarce na adres: http://127.0.0.1:8000
-🔐 Konfiguracja Zmiennych Środowiskowych
-
-Plik .env steruje działaniem aplikacji. Oto najważniejsze zmienne:
-Zmienna	Opis	Wartość Domyślna (Dev)
-DEBUG	Tryb debugowania. Na produkcji MUSI być False.	True
-SECRET_KEY	Klucz kryptograficzny Django.	(Losowy ciąg w .env)
-DB_ENGINE	Silnik bazy danych.	django.db.backends.sqlite3
-DB_NAME	Nazwa bazy danych.	db.sqlite3
-EMAIL_*	Konfiguracja wysyłki maili (SMTP).	Console (wypisuje w terminalu)
-
-Uwaga: Projekt jest gotowy do współpracy z bazą PostgreSQL – wystarczy zmienić DB_ENGINE i podać dane logowania w .env.
-📥 Importowanie Pytań (OpenTDB)
-
-Nie musisz dodawać pytań ręcznie! Aplikacja posiada skrypt do pobierania pytań z bazy wiedzy.
-
-Aby zaimportować pytania z kategorii "Komputery", wpisz w terminalu:
-Bash
-
-python manage.py import_opentdb
-
-Skrypt ten pobiera pytania, tłumaczy strukturę JSON i zapisuje je w Twojej bazie danych jako obiekty Django.
-📂 Struktura Projektu
-
-Lumen_Project/
-├── Lumen_Project/      # Główne ustawienia (settings.py, urls.py)
-├── Lumen/              # Aplikacja Quizowa
-│   ├── models.py       # Modele: Quiz, Pytanie, Odpowiedź, Wynik
-│   ├── views.py        # Logika wyświetlania quizów
-│   ├── api/            # Serializery Django Rest Framework
-│   └── management/     # Skrypty (import_opentdb.py)
-├── users/              # Zarządzanie Użytkownikami
-│   ├── models.py       # Profil użytkownika (Avatar, Bio)
-│   └── signals.py      # Automatyczne tworzenie profilu po rejestracji
-├── static/             # Pliki CSS, JS, Obrazy
-├── templates/          # Szablony HTML (Bootstrap)
-├── manage.py           # Menedżer zadań Django
-└── requirements.txt    # Lista zależności
-Autor
-
-Projekt wykonany w celach edukacyjnych i portfolio. Kontakt: https://www.linkedin.com/in/jaroslaw-savchenko-5438a5320?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app  telegram: t.me/Jaroslaw_I

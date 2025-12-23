@@ -1,4 +1,4 @@
-# 🧠 Lumen - Kompleksowa Dokumentacja Projektu
+# 🧠 Lumen -  Dokumentacja Projektu
 
 ## Spis Treści
 

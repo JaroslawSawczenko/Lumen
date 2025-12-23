@@ -50,7 +50,6 @@
 
 #### Frontend:
 - **HTML5/CSS3**: Struktura i stylizacja
-- **Bootstrap 5**: Responsywny framework CSS
 - **JavaScript**: Interaktywność po stronie klienta
 
 #### Narzędzia Pomocnicze:

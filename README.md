@@ -168,13 +168,13 @@ python manage.py import_opentdb
 
 Działanie skryptu:
 
-    Losuje kategorię (np. Historia, Nauka, Filmy).
+   * Losuje kategorię (np. Historia, Nauka, Filmy).
 
-    Pobiera 10 pytań z API.
+   * Pobiera 10 pytań z API.
 
-    Tworzy systemowego użytkownika LumenBot (jeśli nie istnieje).
+   * Tworzy systemowego użytkownika LumenBot (jeśli nie istnieje).
 
-    Zapisuje Quiz, Pytania i Odpowiedzi w bazie (używając bulk_create dla wydajności).
+*  Zapisuje Quiz, Pytania i Odpowiedzi w bazie (używając bulk_create dla wydajności).
 
 🧪 Testy
 
@@ -186,13 +186,13 @@ python manage.py test
 ```
 Zakres testów:
 
-    Logika XP: Weryfikacja dodawania punktów i awansowania na poziomy.
+*    Logika XP: Weryfikacja dodawania punktów i awansowania na poziomy.
 
-    Rejestracja: Walidacja unikalności adresów email.
+*    Rejestracja: Walidacja unikalności adresów email.
 
-    Widoczność Quizów: Sprawdzenie, czy nieopublikowane quizy są ukryte dla zwykłych użytkowników.
+*    Widoczność Quizów: Sprawdzenie, czy nieopublikowane quizy są ukryte dla zwykłych użytkowników.
 
-    API: Testowanie tworzenia quizów przez endpointy REST.
+*    API: Testowanie tworzenia quizów przez endpointy REST.
 
 © 2025 Lumen Project. Autor: Jarosław Sawczenko.
 

@@ -118,31 +118,53 @@ EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
 ```
 ## 📡 Dokumentacja API
 
-System udostępnia REST API pod ścieżką /api/.
-Endpoints
-Metoda	Ścieżka	Opis	Autoryzacja
-GET	/api/quizzes/	Lista dostępnych quizów	Publiczny
-POST	/api/quizzes/	Utworzenie nowego quizu	Wymagana (IsAuthenticated)
-GET	/api/quizzes/{id}/	Szczegóły quizu i pytania	Publiczny
-Uwagi do Serializerów
+System udostępnia REST API pod bazową ścieżką `/api/`.
 
-Serializer AnswerSerializer posiada dynamiczną logikę bezpieczeństwa – pole is_correct (informacja o poprawnej odpowiedzi) jest usuwane z odpowiedzi API dla użytkowników, którzy nie są administratorami (is_staff), aby zapobiec oszustwom.
-🧮 Algorytmy i Logika Biznesowa
-1. Skalowanie Poziomów (Level Scaling)
+### Endpoints
 
-Wymagane punkty doświadczenia (XP) na kolejny poziom są obliczane wykładniczo. Formuła: $$ XP_{required} = 100 \times (Level^{1.5}) $$ Zaimplementowane w: users/models.py.
-2. System Punktacji Malejącej (Score Decay)
+| Metoda | Ścieżka | Opis | Autoryzacja |
+| :--- | :--- | :--- | :--- |
+| **GET** | `/api/quizzes/` | Lista dostępnych quizów | Publiczny |
+| **POST** | `/api/quizzes/` | Utworzenie nowego quizu | Wymagana (`IsAuthenticated`) |
+| **GET** | `/api/quizzes/{id}/` | Szczegóły quizu i pytania | Publiczny |
 
-W celu balansu rozgrywki, wielokrotne rozwiązywanie tego samego quizu przynosi mniejsze korzyści. Formuła: $$ Mnożnik = \max(0.1, \ 1.0 - (LiczbaPodejść \times 0.2)) $$ Oznacza to, że każde podejście zmniejsza nagrodę o 20%, aż do minimalnego progu 10% wartości bazowej. Zaimplementowane w: Lumen/views.py (funkcja finish_quiz_view).
-🛠 Zarządzanie (Management Commands)
-Import Quizów z OpenTDB
+### 🔐 Bezpieczeństwo i Serializery
 
-Projekt posiada wbudowane narzędzie do zasilania bazy danych pytaniami z Open Trivia Database.
+> **Uwaga:** Serializer `AnswerSerializer` posiada dynamiczną logikę bezpieczeństwa.
 
-Użycie:
-Bash
+Pole `is_correct` (informacja o poprawnej odpowiedzi) jest **usuwane** z odpowiedzi API dla użytkowników, którzy nie posiadają uprawnień administratora (`is_staff`). Mechanizm ten zapobiega oszustwom i podglądaniu odpowiedzi w kodzie źródłowym strony.
 
+---
+
+## 🧮 Algorytmy i Logika Biznesowa
+
+### 1. Skalowanie Poziomów (Level Scaling)
+Wymagane punkty doświadczenia (XP) potrzebne do osiągnięcia kolejnego poziomu są obliczane wykładniczo. Zapewnia to rosnący poziom trudności w zdobywaniu kolejnych rang.
+
+**Formuła:**
+$$XP_{required} = 100 \times (Level^{1.5})$$
+
+* **Implementacja:** `users/models.py`
+
+### 2. System Punktacji Malejącej (Score Decay)
+W celu zbalansowania rozgrywki, wielokrotne rozwiązywanie tego samego quizu przynosi mniejsze korzyści. Każde podejście zmniejsza nagrodę o **20%**, aż do minimalnego progu **10%** wartości bazowej.
+
+**Formuła:**
+$$\text{Mnożnik} = \max(0.1, \ 1.0 - (\text{LiczbaPodejść} \times 0.2))$$
+
+* **Implementacja:** `Lumen/views.py` (funkcja `finish_quiz_view`)
+
+---
+
+## 🛠 Zarządzanie (Management Commands)
+
+### Import Quizów z OpenTDB
+Projekt posiada wbudowane narzędzie do zasilania bazy danych pytaniami z zewnętrznego serwisu *Open Trivia Database*.
+
+**Użycie:**
+```bash
 python manage.py import_opentdb
+```
 
 Działanie skryptu:
 

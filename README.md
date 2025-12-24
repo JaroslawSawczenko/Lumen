@@ -65,35 +65,33 @@ Aplikacja kładzie nacisk na optymalizację zapytań do bazy danych (wykorzystan
 ```bash
 git clone [https://github.com/TwojeRepo/Lumen.git](https://github.com/TwojeRepo/Lumen.git)
 cd Lumen
-
-Krok 2: Utworzenie środowiska wirtualnego
-Bash
-
+```
+### Krok 2: Utworzenie środowiska wirtualnego
+```bash
 # Windows
 python -m venv venv
 venv\Scripts\activate
-
+```
+```bash
 # macOS/Linux
 python3 -m venv venv
 source venv/bin/activate
-
-Krok 3: Instalacja zależności
-Bash
-
+```
+### Krok 3: Instalacja zależności
+```bash
 pip install -r requirements.txt
-
-Krok 4: Konfiguracja zmiennych środowiskowych
+```
+### Krok 4: Konfiguracja zmiennych środowiskowych
 
 Utwórz plik .env w głównym katalogu projektu, bazując na pliku .env.example.
-Krok 5: Migracje i Uruchomienie
-Bash
-
+### Krok 5: Migracje i Uruchomienie
+```bash
 python manage.py migrate
 python manage.py createsuperuser  # Utwórz konto administratora
 python manage.py runserver
-
+```
 Aplikacja będzie dostępna pod adresem: http://127.0.0.1:8000/
-🔐 Struktura Zmiennych Środowiskowych (.env)
+## 🔐 Struktura Zmiennych Środowiskowych (.env)
 
 Plik .env jest kluczowy dla bezpieczeństwa i konfiguracji projektu.
 Ini, TOML
@@ -118,7 +116,7 @@ DB_NAME=db.sqlite3
 # Konfiguracja Email (Dla deweloperki - logi w konsoli)
 EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
 
-📡 Dokumentacja API
+## 📡 Dokumentacja API
 
 System udostępnia REST API pod ścieżką /api/.
 Endpoints

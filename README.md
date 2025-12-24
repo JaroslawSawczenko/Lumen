@@ -27,20 +27,12 @@
 
 ### 1.3 Stack Technologiczny
 
-#### Backend:
-- **Python 3.10+**: Nowoczesna wersja języka
-- **Django 5.2**: Framework webowy wysokiego poziomu
-- **Django REST Framework**: Tworzenie RESTful API
-- **SQLite/PostgreSQL**: Baza danych (SQLite domyślnie, PostgreSQL opcjonalnie)
+Stack Technologiczny
 
-#### Frontend:
-- **HTML5/CSS3**: Struktura i stylizacja
-
-#### Narzędzia Pomocnicze:
-- **Pillow**: Przetwarzanie obrazów (avatary)
-- **python-dotenv**: Zarządzanie zmiennymi środowiskowymi
-
----
+Backend: Python 3.10+, Django 5.2, Django REST Framework
+Baza danych: SQLite (dev) / PostgreSQL (prod)
+Frontend: HTML5/CSS3, 
+Dodatkowe: Pillow (obrazy), python-dotenv (env vars)
 
 
 

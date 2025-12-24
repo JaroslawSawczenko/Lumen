@@ -1,15 +1,4 @@
-# 🧠 Lumen -  Dokumentacja Projektu
-
-## Spis Treści
-
-1. [Wprowadzenie](#wprowadzenie)
-2. [Instalacja i Konfiguracja](#instalacja-i-konfiguracja)
-
-
-
----
-
-## 1. Wprowadzenie
+🧠 Lumen - Dokumentacja Techniczna
 
 ### 1.1 Cel Projektu
 

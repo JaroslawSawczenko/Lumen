@@ -95,7 +95,7 @@ Aplikacja będzie dostępna pod adresem: http://127.0.0.1:8000/
 
 Plik .env jest kluczowy dla bezpieczeństwa i konfiguracji projektu.
 Ini, TOML
-
+``` ini
 # Główna konfiguracja
 DEBUG=True
 SECRET_KEY=twoj-unikalny-sekretny-klucz
@@ -115,7 +115,7 @@ DB_NAME=db.sqlite3
 
 # Konfiguracja Email (Dla deweloperki - logi w konsoli)
 EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
-
+```
 ## 📡 Dokumentacja API
 
 System udostępnia REST API pod ścieżką /api/.

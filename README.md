@@ -1,4 +1,4 @@
-🧠 # Lumen - Dokumentacja Techniczna
+🧠 Lumen - Dokumentacja Techniczna
 
 ### 1.1 Cel Projektu
 

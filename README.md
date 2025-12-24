@@ -181,10 +181,9 @@ Działanie skryptu:
 Projekt posiada zestaw testów jednostkowych weryfikujących logikę biznesową oraz widoczność danych.
 
 Aby uruchomić testy:
-Bash
-
+```bash
 python manage.py test
-
+```
 Zakres testów:
 
     Logika XP: Weryfikacja dodawania punktów i awansowania na poziomy.
